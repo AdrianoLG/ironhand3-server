@@ -1,5 +1,5 @@
 <p align="center">
-<a href="http://nestjs.com/" target="blank"><img src="./ironhand.svg" width="150" alt="Nest Logo" /></a>
+<a href="http://nestjs.com/" target="blank"><img src="./ironhand.svg" width="150" alt="Iron Hand Logo" /></a>
 </p>
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="60" alt="Nest Logo" /></a>
@@ -12,7 +12,7 @@
 
 ## Description
 
-[Adri](https://adri.info)'s backend, with NestJS, MongoDB and GraphQL to serve Iron Hand 3's frontend
+[Adri](https://adri.info)'s backend, with NestJS, MongoDB and GraphQL to serve [Iron Hand 3's frontend]("https://github.com/AdrianoLG/ironhand3-client")
 
 ## Project setup
 
