@@ -1,0 +1,215 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Author {
+  _id: String!
+
+  """Name of the author"""
+  first_name: String!
+
+  """Last name of the author"""
+  last_name: String
+
+  """Date of birth"""
+  birth_date: String
+
+  """Date of death"""
+  death_date: String
+
+  """Nationality of the author"""
+  nationality: String
+
+  """Notes about the author"""
+  notes: String
+
+  """List of authors books"""
+  books: [Book!]!
+}
+
+type GetAuthorsPaginatedResponse {
+  """List of authors"""
+  authorList: [Author!]!
+
+  """Total of authors"""
+  authorsCount: Int!
+}
+
+type Book {
+  _id: String!
+
+  """Title of the book"""
+  title: String!
+
+  """Number of pages"""
+  pages: Int
+
+  """Cover of the book"""
+  cover: String
+
+  """Notes about the book"""
+  notes: String
+
+  """Authors of the book"""
+  authors: [Author!]!
+}
+
+type GetBooksPaginatedResponse {
+  """List of books"""
+  bookList: [Book!]!
+  booksCount: Int!
+}
+
+type User {
+  _id: String!
+
+  """Email of the user"""
+  email: String!
+
+  """Password of the user"""
+  password: String!
+
+  """Name of the user"""
+  name: String
+
+  """City of the user"""
+  city: String
+}
+
+type Query {
+  users: [User!]!
+  user(id: String!): User!
+  books(limit: Int = 10, skip: Int = 0): GetBooksPaginatedResponse!
+  book(id: String!): Book!
+  authors(limit: Int = 10, skip: Int = 0): GetAuthorsPaginatedResponse!
+  author(id: String!): Author!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: String!): User!
+  createBook(createBookInput: CreateBookInput!): Book!
+  updateBook(updateBookInput: UpdateBookInput!): Book!
+  removeBook(id: String!): Book!
+  createAuthor(createAuthorInput: CreateAuthorInput!): Author!
+  updateAuthor(updateAuthorInput: UpdateAuthorInput!): Author!
+  removeAuthor(id: String!): Author!
+}
+
+input CreateUserInput {
+  """Email of the user"""
+  email: String!
+
+  """Password of the user"""
+  password: String!
+
+  """Name of the user"""
+  name: String
+
+  """City of the user"""
+  city: String
+}
+
+input UpdateUserInput {
+  """Email of the user"""
+  email: String
+
+  """Password of the user"""
+  password: String
+
+  """Name of the user"""
+  name: String
+
+  """City of the user"""
+  city: String
+  _id: String!
+}
+
+input CreateBookInput {
+  """Title of the book"""
+  title: String!
+
+  """Number of pages"""
+  pages: Int
+
+  """Cover of the book"""
+  cover: String
+
+  """ISBN of the book"""
+  isbn: String
+
+  """Notes about the book"""
+  notes: String
+
+  """List of authors ids"""
+  authors: [String!]! = []
+}
+
+input UpdateBookInput {
+  """Title of the book"""
+  title: String
+
+  """Number of pages"""
+  pages: Int
+
+  """Cover of the book"""
+  cover: String
+
+  """ISBN of the book"""
+  isbn: String
+
+  """Notes about the book"""
+  notes: String
+
+  """List of authors ids"""
+  authors: [String!] = []
+  _id: String!
+}
+
+input CreateAuthorInput {
+  """Name of the author"""
+  first_name: String!
+
+  """Last name of the author"""
+  last_name: String
+
+  """Date of birth"""
+  birth_date: String
+
+  """Date of death"""
+  death_date: String
+
+  """Nationality of the author"""
+  nationality: String
+
+  """Notes about the author"""
+  notes: String
+
+  """List of books ids"""
+  books: [String!]! = []
+}
+
+input UpdateAuthorInput {
+  """Name of the author"""
+  first_name: String
+
+  """Last name of the author"""
+  last_name: String
+
+  """Date of birth"""
+  birth_date: String
+
+  """Date of death"""
+  death_date: String
+
+  """Nationality of the author"""
+  nationality: String
+
+  """Notes about the author"""
+  notes: String
+
+  """List of books ids"""
+  books: [String!] = []
+  _id: String!
+}
