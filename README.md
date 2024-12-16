@@ -27,6 +27,7 @@ $ npm install
 ```bash
 DATABASE_URL=#your database url - mongodb://[user]:[password]@[host]:[port]#
 DATABASE_NAME=#your database name#
+ALLOWED_HOSTS=#allowed hosts in backend#
 ```
 
 ## Compile and run the project

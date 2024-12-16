@@ -60,6 +60,41 @@ type GetBooksPaginatedResponse {
   booksCount: Int!
 }
 
+type ShortcutCategory {
+  _id: String!
+
+  """Title of the category"""
+  title: String!
+
+  """List of shortcuts ids"""
+  shortcuts: [Shortcut!]!
+}
+
+type Shortcut {
+  _id: String!
+
+  """Shortcut title"""
+  title: String!
+
+  """Shortcut image"""
+  image: String!
+
+  """Shortcut category"""
+  category: ShortcutCategory!
+
+  """Shortcut action"""
+  action: String!
+}
+
+"""Response type"""
+type ResponseType {
+  """Response message"""
+  message: String!
+
+  """Count of completed operations"""
+  count: Int!
+}
+
 type User {
   _id: String!
 
@@ -83,6 +118,10 @@ type Query {
   book(id: String!): Book!
   authors(limit: Int = 10, skip: Int = 0): GetAuthorsPaginatedResponse!
   author(id: String!): Author!
+  shortcuts: [Shortcut!]!
+  shortcut(id: String!): Shortcut!
+  shortcutCategories: [ShortcutCategory!]!
+  shortcutCategory(id: String!): ShortcutCategory!
 }
 
 type Mutation {
@@ -95,6 +134,12 @@ type Mutation {
   createAuthor(createAuthorInput: CreateAuthorInput!): Author!
   updateAuthor(updateAuthorInput: UpdateAuthorInput!): Author!
   removeAuthor(id: String!): Author!
+  createShortcut(createShortcutInput: CreateShortcutInput!): Shortcut!
+  updateShortcut(updateShortcutInput: UpdateShortcutInput!): Shortcut!
+  removeShortcut(id: String!): ResponseType!
+  createShortcutCategory(createShortcutCategoryInput: CreateShortcutCategoryInput!): ShortcutCategory!
+  updateShortcutCategory(updateShortcutCategoryInput: UpdateShortcutCategoryInput!): ShortcutCategory!
+  removeShortcutCategory(id: String!): ShortcutCategory!
 }
 
 input CreateUserInput {
@@ -211,5 +256,51 @@ input UpdateAuthorInput {
 
   """List of books ids"""
   books: [String!] = []
+  _id: String!
+}
+
+input CreateShortcutInput {
+  """Shortcut title"""
+  title: String!
+
+  """Shortcut image"""
+  image: String!
+
+  """Shortcut category"""
+  category: String!
+
+  """Shortcut action"""
+  action: String!
+}
+
+input UpdateShortcutInput {
+  """Shortcut title"""
+  title: String
+
+  """Shortcut image"""
+  image: String
+
+  """Shortcut category"""
+  category: String
+
+  """Shortcut action"""
+  action: String
+  _id: String!
+}
+
+input CreateShortcutCategoryInput {
+  """Title of the category"""
+  title: String!
+
+  """List of shortcuts ids"""
+  shortcuts: [String!]! = []
+}
+
+input UpdateShortcutCategoryInput {
+  """Title of the category"""
+  title: String
+
+  """List of shortcuts ids"""
+  shortcuts: [String!] = []
   _id: String!
 }
