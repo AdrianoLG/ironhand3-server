@@ -60,6 +60,16 @@ type GetBooksPaginatedResponse {
   booksCount: Int!
 }
 
+type Header {
+  _id: String!
+
+  """Title of nav item"""
+  title: String!
+
+  """URL of nav item"""
+  url: String!
+}
+
 type ShortcutCategory {
   _id: String!
 
@@ -122,6 +132,8 @@ type Query {
   shortcut(id: String!): Shortcut!
   shortcutCategories: [ShortcutCategory!]!
   shortcutCategory(id: String!): ShortcutCategory!
+  headers: [Header!]!
+  header(id: String!): Header!
 }
 
 type Mutation {
@@ -140,6 +152,9 @@ type Mutation {
   createShortcutCategory(createShortcutCategoryInput: CreateShortcutCategoryInput!): ShortcutCategory!
   updateShortcutCategory(updateShortcutCategoryInput: UpdateShortcutCategoryInput!): ShortcutCategory!
   removeShortcutCategory(id: String!): ShortcutCategory!
+  createHeader(createHeaderInput: CreateHeaderInput!): Header!
+  updateHeader(updateHeaderInput: UpdateHeaderInput!): Header!
+  removeHeader(id: String!): Header!
 }
 
 input CreateUserInput {
@@ -302,5 +317,22 @@ input UpdateShortcutCategoryInput {
 
   """List of shortcuts ids"""
   shortcuts: [String!] = []
+  _id: String!
+}
+
+input CreateHeaderInput {
+  """Title of nav item"""
+  title: String!
+
+  """URL of nav item"""
+  url: String!
+}
+
+input UpdateHeaderInput {
+  """Title of nav item"""
+  title: String
+
+  """URL of nav item"""
+  url: String
   _id: String!
 }

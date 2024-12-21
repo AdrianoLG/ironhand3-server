@@ -9,6 +9,7 @@ import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose'
 
 import { AuthorModule } from './catalog/author/author.module'
 import { BookModule } from './catalog/book/book.module'
+import { HeaderModule } from './navigation/header/header.module'
 import { ShortcutCategoryModule } from './settings/shortcut-category/shortcut-category.module'
 import { ShortcutsModule } from './settings/shortcut/shortcut.module'
 import { UserModule } from './user/user.module'
@@ -40,7 +41,8 @@ import { UserModule } from './user/user.module'
     BookModule,
     AuthorModule,
     ShortcutsModule,
-    ShortcutCategoryModule
+    ShortcutCategoryModule,
+    HeaderModule
   ],
   controllers: [],
   providers: []
