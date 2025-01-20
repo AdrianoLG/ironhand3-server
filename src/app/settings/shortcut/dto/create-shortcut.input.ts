@@ -7,6 +7,9 @@ export class CreateShortcutInput {
   @Field(() => String, { description: 'Shortcut title' })
   title: string
 
+  @Field(() => String, { description: 'Shortcut subtitle' })
+  subtitle: string
+
   @Field(() => String, { description: 'Shortcut image' })
   image: string
 

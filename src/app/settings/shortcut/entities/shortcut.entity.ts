@@ -15,6 +15,10 @@ export class Shortcut {
   @Prop({ required: true })
   title: string
 
+  @Field(() => String, { description: 'Shortcut subtitle', nullable: true })
+  @Prop()
+  subtitle?: string
+
   @Field(() => String, { description: 'Shortcut image' })
   @Prop({ required: true })
   image: string

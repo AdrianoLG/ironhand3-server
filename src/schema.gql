@@ -86,6 +86,9 @@ type Shortcut {
   """Shortcut title"""
   title: String!
 
+  """Shortcut subtitle"""
+  subtitle: String
+
   """Shortcut image"""
   image: String!
 
@@ -278,6 +281,9 @@ input CreateShortcutInput {
   """Shortcut title"""
   title: String!
 
+  """Shortcut subtitle"""
+  subtitle: String!
+
   """Shortcut image"""
   image: String!
 
@@ -291,6 +297,9 @@ input CreateShortcutInput {
 input UpdateShortcutInput {
   """Shortcut title"""
   title: String
+
+  """Shortcut subtitle"""
+  subtitle: String
 
   """Shortcut image"""
   image: String
