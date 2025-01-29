@@ -46,7 +46,7 @@ export class ShortcutService {
     })
   }
 
-  async removeShortcut(id: MongooseSchema.Types.ObjectId) {
+  removeShortcut(id: MongooseSchema.Types.ObjectId) {
     return this.shortcutModel.deleteOne({ _id: id })
   }
 }

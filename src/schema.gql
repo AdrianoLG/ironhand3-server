@@ -60,6 +60,52 @@ type GetBooksPaginatedResponse {
   booksCount: Int!
 }
 
+type Exercise {
+  _id: String!
+
+  """Exercise name"""
+  name: String!
+
+  """Body parts involved"""
+  bodyParts: [String!]
+
+  """Exercise type: strength, cardio or stretch"""
+  type: String!
+
+  """Exercise image"""
+  img: String
+}
+
+type CompletedExercise {
+  _id: String!
+
+  """Date in which exercise was completed"""
+  date: DateTime!
+
+  """Exercise"""
+  exercise: Exercise!
+
+  """Time to complete exercise in minutes"""
+  time: String
+
+  """Exercise repetitions"""
+  repetitions: Int
+
+  """Weight involved in kilograms"""
+  weight: Int
+
+  """Maximum of PPM doing the exercise"""
+  ppm_max: Int
+
+  """Minimum of PPM doing the exercise"""
+  ppm_min: Int
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Header {
   _id: String!
 
@@ -137,6 +183,10 @@ type Query {
   shortcutCategory(id: String!): ShortcutCategory!
   headers: [Header!]!
   header(id: String!): Header!
+  completedExercises: [CompletedExercise!]!
+  completedExercise(id: Int!): CompletedExercise!
+  exercises: [Exercise!]!
+  exercise(id: String!): Exercise!
 }
 
 type Mutation {
@@ -158,6 +208,12 @@ type Mutation {
   createHeader(createHeaderInput: CreateHeaderInput!): Header!
   updateHeader(updateHeaderInput: UpdateHeaderInput!): Header!
   removeHeader(id: String!): Header!
+  createCompletedExercise(createCompletedExerciseInput: CreateCompletedExerciseInput!): CompletedExercise!
+  updateCompletedExercise(updateCompletedExerciseInput: UpdateCompletedExerciseInput!): CompletedExercise!
+  removeCompletedExercise(id: Int!): CompletedExercise!
+  createExercise(createExerciseInput: CreateExerciseInput!): Exercise!
+  updateExercise(updateExerciseInput: UpdateExerciseInput!): Exercise!
+  removeExercise(id: String!): Exercise!
 }
 
 input CreateUserInput {
@@ -343,5 +399,81 @@ input UpdateHeaderInput {
 
   """URL of nav item"""
   url: String
+  _id: String!
+}
+
+input CreateCompletedExerciseInput {
+  """Exercise id"""
+  exercise: String!
+
+  """Date in which exercise was completed"""
+  date: DateTime!
+
+  """Time to complete exercise in minutes"""
+  time: String
+
+  """Exercise repetitions"""
+  repetitions: Int
+
+  """Weight involved in kilograms"""
+  weight: Int
+
+  """Maximum of PPM doing the exercise"""
+  ppm_max: Int
+
+  """Minimum of PPM doing the exercise"""
+  ppm_min: Int
+}
+
+input UpdateCompletedExerciseInput {
+  """Exercise id"""
+  exercise: String
+
+  """Date in which exercise was completed"""
+  date: DateTime
+
+  """Time to complete exercise in minutes"""
+  time: String
+
+  """Exercise repetitions"""
+  repetitions: Int
+
+  """Weight involved in kilograms"""
+  weight: Int
+
+  """Maximum of PPM doing the exercise"""
+  ppm_max: Int
+
+  """Minimum of PPM doing the exercise"""
+  ppm_min: Int
+  _id: String!
+}
+
+input CreateExerciseInput {
+  """Exercise name"""
+  name: String!
+
+  """Body parts involved"""
+  bodyParts: [String!]!
+
+  """Exercise type: strength, cardio or stretch"""
+  type: String!
+
+  """Exercise image"""
+  img: String!
+}
+
+input UpdateExerciseInput {
+  """Exercise name"""
+  name: String
+
+  """Body parts involved"""
+  bodyParts: [String!]
+
+  """Exercise type: strength, cardio or stretch"""
+  type: String
+
+  """Exercise image"""
+  img: String
   _id: String!
 }

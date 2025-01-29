@@ -3,7 +3,7 @@ import { Model, Schema as MongooSchema } from 'mongoose'
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 
-import { BookDocument } from '../book/entities/book.entity'
+import { Book, BookDocument } from '../book/entities/book.entity'
 import { CreateAuthorInput } from './dto/create-author.input'
 import { UpdateAuthorInput } from './dto/update-author.input'
 import { Author, AuthorDocument } from './entities/author.entity'
@@ -13,7 +13,7 @@ export class AuthorService {
   constructor(
     @InjectModel(Author.name)
     private authorModel: Model<AuthorDocument>,
-    @InjectModel(Author.name)
+    @InjectModel(Book.name)
     private bookModel: Model<BookDocument>
   ) {}
 
