@@ -1,11 +1,11 @@
-import { Model, Schema as MongooseSchema } from 'mongoose';
+import { Model, Schema as MongooseSchema } from 'mongoose'
 
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
+import { Injectable } from '@nestjs/common'
+import { InjectModel } from '@nestjs/mongoose'
 
-import { CreateExerciseInput } from './dto/create-exercise.input';
-import { UpdateExerciseInput } from './dto/update-exercise.input';
-import { Exercise, ExerciseDocument } from './entities/exercise.entity';
+import { CreateExerciseInput } from './dto/create-exercise.input'
+import { UpdateExerciseInput } from './dto/update-exercise.input'
+import { Exercise, ExerciseDocument } from './entities/exercise.entity'
 
 @Injectable()
 export class ExerciseService {
@@ -16,7 +16,7 @@ export class ExerciseService {
 
   createExercise(createExerciseInput: CreateExerciseInput) {
     const types = ['cardio', 'strength', 'stretch']
-    if (types.indexOf(createExerciseInput.type) === 1) {
+    if (types.indexOf(createExerciseInput.type) >= 0) {
       const createdExercise = new this.exerciseModel(createExerciseInput)
       return createdExercise.save()
     }

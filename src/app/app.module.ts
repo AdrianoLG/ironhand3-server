@@ -11,6 +11,7 @@ import { AuthorModule } from './catalog/author/author.module'
 import { BookModule } from './catalog/book/book.module'
 import { CompletedExerciseModule } from './exercise/completed-exercise/completed-exercise.module'
 import { ExerciseModule } from './exercise/exercise/exercise.module'
+import { FileUploadModule } from './file-upload/file-upload.module'
 import { HeaderModule } from './navigation/header/header.module'
 import { ShortcutCategoryModule } from './settings/shortcut-category/shortcut-category.module'
 import { ShortcutsModule } from './settings/shortcut/shortcut.module'
@@ -46,7 +47,8 @@ import { UserModule } from './user/user.module'
     ShortcutCategoryModule,
     HeaderModule,
     CompletedExerciseModule,
-    ExerciseModule
+    ExerciseModule,
+    FileUploadModule
   ],
   controllers: [],
   providers: []
