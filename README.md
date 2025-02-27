@@ -12,7 +12,7 @@
 
 ## Description
 
-[Adri](https://adri.info)'s backend, with NestJS, MongoDB and GraphQL to serve [Iron Hand 3's frontend]("https://github.com/AdrianoLG/ironhand3-client")
+[Adri](https://adri.info)'s backend, with NestJS, MongoDB and GraphQL to serve [Iron Hand 3's frontend](https://github.com/AdrianoLG/ironhand3-client)
 
 ## Project setup
 
