@@ -24,7 +24,7 @@ export class CompletedExercise {
     nullable: true
   })
   @Prop()
-  time?: string
+  time?: number
 
   @Field(() => Int, { description: 'Exercise repetitions', nullable: true })
   @Prop()

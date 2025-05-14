@@ -10,11 +10,11 @@ export class CreateCompletedExerciseInput {
   @Field(() => Date, { description: 'Date in which exercise was completed' })
   date: Date
 
-  @Field(() => String, {
+  @Field(() => Int, {
     description: 'Time to complete exercise in minutes',
     nullable: true
   })
-  time?: string
+  time?: number
 
   @Field(() => Int, { description: 'Exercise repetitions', nullable: true })
   repetitions?: number

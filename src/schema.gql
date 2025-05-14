@@ -410,7 +410,7 @@ input CreateCompletedExerciseInput {
   date: DateTime!
 
   """Time to complete exercise in minutes"""
-  time: String
+  time: Int
 
   """Exercise repetitions"""
   repetitions: Int
@@ -433,7 +433,7 @@ input UpdateCompletedExerciseInput {
   date: DateTime
 
   """Time to complete exercise in minutes"""
-  time: String
+  time: Int
 
   """Exercise repetitions"""
   repetitions: Int
