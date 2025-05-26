@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { MongooseModule } from '@nestjs/mongoose'
 
-import { Exercise, ExerciseSchema } from '../exercise/entities/exercise.entity'
 import { CompletedExerciseResolver } from './completed-exercise.resolver'
 import { CompletedExerciseService } from './completed-exercise.service'
 import {
@@ -18,11 +17,7 @@ import {
   ],
   imports: [
     MongooseModule.forFeature([
-      { name: CompletedExercise.name, schema: CompletedExerciseSchema },
-      {
-        name: Exercise.name,
-        schema: ExerciseSchema
-      }
+      { name: CompletedExercise.name, schema: CompletedExerciseSchema }
     ]),
     ConfigModule.forRoot({
       cache: true

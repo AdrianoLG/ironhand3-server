@@ -41,13 +41,9 @@ export class ExerciseResolver {
   }
 
   @Mutation(() => Exercise)
-  async removeExercise(
+  removeExercise(
     @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId
   ) {
-    const removedExercise = await this.exerciseService.removeExercise(id)
-    return {
-      message: `Exercise removed successfully`,
-      count: removedExercise.deletedCount
-    }
+    return this.exerciseService.removeExercise(id)
   }
 }

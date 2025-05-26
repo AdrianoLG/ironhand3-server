@@ -1,6 +1,6 @@
 import { Schema as MongooseSchema } from 'mongoose'
 
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 
 import { CompletedExerciseService } from './completed-exercise.service'
 import { CreateCompletedExerciseInput } from './dto/create-completed-exercise.input'
@@ -29,7 +29,9 @@ export class CompletedExerciseResolver {
   }
 
   @Query(() => CompletedExercise, { name: 'completedExercise' })
-  findOne(@Args('id', { type: () => Int }) id: MongooseSchema.Types.ObjectId) {
+  findOne(
+    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId
+  ) {
     return this.completedExerciseService.getCompletedExerciseById(id)
   }
 
@@ -46,7 +48,7 @@ export class CompletedExerciseResolver {
 
   @Mutation(() => CompletedExercise)
   removeCompletedExercise(
-    @Args('id', { type: () => Int }) id: MongooseSchema.Types.ObjectId
+    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId
   ) {
     return this.completedExerciseService.removeCompletedExercise(id)
   }

@@ -3,10 +3,6 @@ import { Model, Schema as MongooseSchema } from 'mongoose'
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 
-import {
-  Exercise,
-  ExerciseDocument
-} from '../exercise/entities/exercise.entity'
 import { CreateCompletedExerciseInput } from './dto/create-completed-exercise.input'
 import { UpdateCompletedExerciseInput } from './dto/update-completed-exercise.input'
 import {
@@ -18,9 +14,7 @@ import {
 export class CompletedExerciseService {
   constructor(
     @InjectModel(CompletedExercise.name)
-    private completedExerciseModel: Model<CompletedExerciseDocument>,
-    @InjectModel(Exercise.name)
-    private exerciseModel: Model<ExerciseDocument>
+    private completedExerciseModel: Model<CompletedExerciseDocument>
   ) {}
 
   async createCompletedExercise(
@@ -61,6 +55,6 @@ export class CompletedExerciseService {
   }
 
   removeCompletedExercise(id: MongooseSchema.Types.ObjectId) {
-    return this.completedExerciseModel.deleteOne({ _id: id })
+    return this.completedExerciseModel.findByIdAndDelete(id)
   }
 }

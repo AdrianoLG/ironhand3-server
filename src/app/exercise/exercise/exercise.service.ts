@@ -3,6 +3,10 @@ import { Model, Schema as MongooseSchema } from 'mongoose'
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 
+import {
+  CompletedExercise,
+  CompletedExerciseDocument
+} from '../completed-exercise/entities/completed-exercise.entity'
 import { CreateExerciseInput } from './dto/create-exercise.input'
 import { UpdateExerciseInput } from './dto/update-exercise.input'
 import { Exercise, ExerciseDocument } from './entities/exercise.entity'
@@ -11,7 +15,9 @@ import { Exercise, ExerciseDocument } from './entities/exercise.entity'
 export class ExerciseService {
   constructor(
     @InjectModel(Exercise.name)
-    private exerciseModel: Model<ExerciseDocument>
+    private exerciseModel: Model<ExerciseDocument>,
+    @InjectModel(CompletedExercise.name)
+    private completedExerciseModel: Model<CompletedExerciseDocument>
   ) {}
 
   createExercise(createExerciseInput: CreateExerciseInput) {
@@ -40,7 +46,9 @@ export class ExerciseService {
     })
   }
 
-  removeExercise(id: MongooseSchema.Types.ObjectId) {
-    return this.exerciseModel.deleteOne({ _id: id })
+  async removeExercise(id: MongooseSchema.Types.ObjectId) {
+    const result = await this.exerciseModel.findByIdAndDelete(id)
+    await this.completedExerciseModel.deleteMany({ exercise: id })
+    return result
   }
 }

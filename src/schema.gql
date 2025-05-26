@@ -184,7 +184,7 @@ type Query {
   headers: [Header!]!
   header(id: String!): Header!
   completedExercises: [CompletedExercise!]!
-  completedExercise(id: Int!): CompletedExercise!
+  completedExercise(id: String!): CompletedExercise!
   exercises: [Exercise!]!
   exercise(id: String!): Exercise!
 }
@@ -210,7 +210,7 @@ type Mutation {
   removeHeader(id: String!): Header!
   createCompletedExercise(createCompletedExerciseInput: CreateCompletedExerciseInput!): CompletedExercise!
   updateCompletedExercise(updateCompletedExerciseInput: UpdateCompletedExerciseInput!): CompletedExercise!
-  removeCompletedExercise(id: Int!): CompletedExercise!
+  removeCompletedExercise(id: String!): CompletedExercise!
   createExercise(createExerciseInput: CreateExerciseInput!): Exercise!
   updateExercise(updateExerciseInput: UpdateExerciseInput!): Exercise!
   removeExercise(id: String!): Exercise!
