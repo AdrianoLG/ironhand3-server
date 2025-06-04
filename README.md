@@ -1,10 +1,10 @@
 <p align="center">
-<a href="http://nestjs.com/" target="blank"><img src="./ironhand.svg" width="150" alt="Iron Hand Logo" /></a>
+<a href="http://nestjs.com/" target="blank"><img src="./.readme/ironhand.svg" width="150" alt="Iron Hand Logo" /></a>
 </p>
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="60" alt="Nest Logo" /></a>
-  <a href="https://graphql.org" target="blank"><img src="./mongodb.svg" width="60" alt="GraphQL Logo" /></a>
-  <a href="https://graphql.org" target="blank"><img src="./graphql.svg" width="60" alt="GraphQL Logo" /></a>
+  <a href="https://graphql.org" target="blank"><img src="./.readme/mongodb.svg" width="60" alt="GraphQL Logo" /></a>
+  <a href="https://graphql.org" target="blank"><img src="./.readme/graphql.svg" width="60" alt="GraphQL Logo" /></a>
 </p>
   <p align="center">Iron Hand's backend <a href="https://adri.info" target="_blank"><i>by Adri</i></a></p>
     <p align="center">
@@ -12,7 +12,9 @@
 
 ## Description
 
-[Adri](https://adri.info)'s backend, with NestJS, MongoDB and GraphQL to serve [Iron Hand v3 frontend](https://github.com/AdrianoLG/ironhand3-client)
+[Adri](https://adri.info)'s backend, with NestJS, MongoDB and GraphQL to serve [Iron Hand v3 frontend](https://github.com/AdrianoLG/ironhand3-client).
+
+For complete development setup, go to [Wiki](https://github.com/AdrianoLG/ironhand3-server/wiki/Development-environment)
 
 ## Project setup
 
