@@ -60,6 +60,53 @@ type GetBooksPaginatedResponse {
   booksCount: Int!
 }
 
+type Room {
+  _id: String!
+
+  """Room name"""
+  name: String!
+
+  """Room slug"""
+  slug: String!
+
+  """Room image"""
+  image: String!
+}
+
+type CleaningTask {
+  _id: String!
+
+  """Cleaning task name"""
+  name: String!
+
+  """Slug for the cleaning task"""
+  slug: String!
+
+  """Image for the cleaning task"""
+  img: String!
+
+  """Possible rooms used"""
+  possibleRooms: [Room!]!
+}
+
+type CompletedCleaningTask {
+  _id: String!
+
+  """Completion date"""
+  completedAt: DateTime!
+
+  """Cleaning task"""
+  cleaningTask: CleaningTask!
+
+  """Rooms cleaned"""
+  rooms: [Room!]!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Exercise {
   _id: String!
 
@@ -100,11 +147,6 @@ type CompletedExercise {
   """Minimum of PPM doing the exercise"""
   ppm_min: Int
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 type Header {
   _id: String!
@@ -187,6 +229,12 @@ type Query {
   completedExercise(id: String!): CompletedExercise!
   exercises: [Exercise!]!
   exercise(id: String!): Exercise!
+  cleaningTasks: [CleaningTask!]!
+  cleaningTask(id: String!): CleaningTask!
+  completedCleaningTasks: [CompletedCleaningTask!]!
+  completedCleaningTask(id: String!): CompletedCleaningTask!
+  rooms: [Room!]!
+  room(id: String!): Room!
 }
 
 type Mutation {
@@ -214,6 +262,15 @@ type Mutation {
   createExercise(createExerciseInput: CreateExerciseInput!): Exercise!
   updateExercise(updateExerciseInput: UpdateExerciseInput!): Exercise!
   removeExercise(id: String!): Exercise!
+  createCleaningTask(createCleaningTaskInput: CreateCleaningTaskInput!): CleaningTask!
+  updateCleaningTask(updateCleaningTaskInput: UpdateCleaningTaskInput!): CleaningTask!
+  removeCleaningTask(id: String!): CleaningTask!
+  createCompletedCleaningTask(createCompletedCleaningTaskInput: CreateCompletedCleaningTaskInput!): CompletedCleaningTask!
+  updateCompletedCleaningTask(updateCompletedCleaningTaskInput: UpdateCompletedCleaningTaskInput!): CompletedCleaningTask!
+  removeCompletedCleaningTask(id: Int!): CompletedCleaningTask!
+  createRoom(createRoomInput: CreateRoomInput!): Room!
+  updateRoom(updateRoomInput: UpdateRoomInput!): Room!
+  removeRoom(id: String!): Room!
 }
 
 input CreateUserInput {
@@ -475,5 +532,80 @@ input UpdateExerciseInput {
 
   """Exercise image"""
   img: String
+  _id: String!
+}
+
+input CreateCleaningTaskInput {
+  """Cleaning task name"""
+  name: String!
+
+  """Slug for the cleaning task"""
+  slug: String!
+
+  """Image for the cleaning task"""
+  img: String!
+
+  """Possible rooms used"""
+  possibleRooms: [String!]!
+}
+
+input UpdateCleaningTaskInput {
+  """Cleaning task name"""
+  name: String
+
+  """Slug for the cleaning task"""
+  slug: String
+
+  """Image for the cleaning task"""
+  img: String
+
+  """Possible rooms used"""
+  possibleRooms: [String!]
+  _id: String!
+}
+
+input CreateCompletedCleaningTaskInput {
+  """Completion date"""
+  completedAt: DateTime!
+
+  """Cleaning task"""
+  cleaningTask: String!
+
+  """Rooms cleaned"""
+  rooms: [String!]!
+}
+
+input UpdateCompletedCleaningTaskInput {
+  """Completion date"""
+  completedAt: DateTime
+
+  """Cleaning task"""
+  cleaningTask: String
+
+  """Rooms cleaned"""
+  rooms: [String!]
+  _id: String!
+}
+
+input CreateRoomInput {
+  """Room name"""
+  name: String!
+
+  """Room slug"""
+  slug: String!
+
+  """Room image"""
+  image: String!
+}
+
+input UpdateRoomInput {
+  """Room name"""
+  name: String
+
+  """Room slug"""
+  slug: String
+
+  """Room image"""
+  image: String
   _id: String!
 }

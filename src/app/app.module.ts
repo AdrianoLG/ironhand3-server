@@ -9,6 +9,9 @@ import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose'
 
 import { AuthorModule } from './catalog/author/author.module'
 import { BookModule } from './catalog/book/book.module'
+import { CleaningTasksModule } from './cleaning/cleaning-tasks/cleaning-tasks.module'
+import { CompletedCleaningTasksModule } from './cleaning/completed-cleaning-tasks/completed-cleaning-tasks.module'
+import { RoomsModule } from './cleaning/rooms/rooms.module'
 import { CompletedExerciseModule } from './exercise/completed-exercise/completed-exercise.module'
 import { ExerciseModule } from './exercise/exercise/exercise.module'
 import { FileUploadModule } from './file-upload/file-upload.module'
@@ -48,7 +51,10 @@ import { UserModule } from './user/user.module'
     HeaderModule,
     CompletedExerciseModule,
     ExerciseModule,
-    FileUploadModule
+    FileUploadModule,
+    CleaningTasksModule,
+    CompletedCleaningTasksModule,
+    RoomsModule
   ],
   controllers: [],
   providers: []
