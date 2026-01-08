@@ -267,7 +267,7 @@ type Mutation {
   removeCleaningTask(id: String!): CleaningTask!
   createCompletedCleaningTask(createCompletedCleaningTaskInput: CreateCompletedCleaningTaskInput!): CompletedCleaningTask!
   updateCompletedCleaningTask(updateCompletedCleaningTaskInput: UpdateCompletedCleaningTaskInput!): CompletedCleaningTask!
-  removeCompletedCleaningTask(id: Int!): CompletedCleaningTask!
+  removeCompletedCleaningTask(id: String!): CompletedCleaningTask!
   createRoom(createRoomInput: CreateRoomInput!): Room!
   updateRoom(updateRoomInput: UpdateRoomInput!): Room!
   removeRoom(id: String!): Room!

@@ -1,6 +1,6 @@
 import { Schema as MongooseSchema } from 'mongoose'
 
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 
 import { CompletedCleaningTasksService } from './completed-cleaning-tasks.service'
 import { CreateCompletedCleaningTaskInput } from './dto/create-completed-cleaning-task.input'
@@ -47,7 +47,9 @@ export class CompletedCleaningTasksResolver {
   }
 
   @Mutation(() => CompletedCleaningTask)
-  removeCompletedCleaningTask(@Args('id', { type: () => Int }) id: number) {
+  removeCompletedCleaningTask(
+    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId
+  ) {
     return this.completedCleaningTasksService.removeCompletedCleaningTask(id)
   }
 }

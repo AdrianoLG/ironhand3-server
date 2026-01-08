@@ -39,20 +39,22 @@ export class CompletedCleaningTasksService {
       .populate('cleaningTask')
   }
 
-  updateCompletedCleaningTask(
+  async updateCompletedCleaningTask(
     id: MongooseSchema.Types.ObjectId,
     updateCompletedCleaningTaskInput: UpdateCompletedCleaningTaskInput
   ) {
-    return this.completedCleaningTaskModel.findByIdAndUpdate(
-      id,
-      updateCompletedCleaningTaskInput,
-      {
+    const updatedTask = await this.completedCleaningTaskModel
+      .findByIdAndUpdate(id, updateCompletedCleaningTaskInput, {
         new: true
-      }
-    )
+      })
+      .exec()
+    if (!updatedTask) {
+      throw new Error(`Completed Cleaning Task with id ${id} not found`)
+    }
+    return updatedTask
   }
 
-  removeCompletedCleaningTask(id: number) {
+  removeCompletedCleaningTask(id: MongooseSchema.Types.ObjectId) {
     return this.completedCleaningTaskModel.findByIdAndDelete(id)
   }
 }
