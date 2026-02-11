@@ -1,16 +1,21 @@
+import { getModelToken } from '@nestjs/mongoose'
 import { Test, TestingModule } from '@nestjs/testing'
 
-import { ShortcutsService } from './shortcut.service'
+import { ShortcutService } from './shortcut.service'
 
-describe('ShortcutsService', () => {
-  let service: ShortcutsService
+describe('ShortcutService', () => {
+  let service: ShortcutService
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ShortcutsService]
+      providers: [
+        ShortcutService,
+        { provide: getModelToken('Shortcut'), useValue: {} },
+        { provide: getModelToken('ShortcutCategory'), useValue: {} }
+      ]
     }).compile()
 
-    service = module.get<ShortcutsService>(ShortcutsService)
+    service = module.get<ShortcutService>(ShortcutService)
   })
 
   it('should be defined', () => {
