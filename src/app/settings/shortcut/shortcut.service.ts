@@ -21,32 +21,36 @@ export class ShortcutService {
 
   async createShortcut(createShortcutInput: CreateShortcutInput) {
     const createdShortcut = new this.shortcutModel(createShortcutInput)
-    await this.shortcutCategoryModel.findByIdAndUpdate(
-      createdShortcut.category,
-      { $push: { shortcuts: createdShortcut._id } },
-      { new: true }
-    )
+    await this.shortcutCategoryModel
+      .findByIdAndUpdate(
+        createdShortcut.category,
+        { $push: { shortcuts: createdShortcut._id } },
+        { new: true }
+      )
+      .exec()
     return createdShortcut.save()
   }
 
-  findAllShortcuts() {
+  async findAllShortcuts() {
     return this.shortcutModel.find().populate('category').exec()
   }
 
-  getShortcutById(id: MongooseSchema.Types.ObjectId) {
-    return this.shortcutModel.findById(id).populate('category')
+  async getShortcutById(id: MongooseSchema.Types.ObjectId) {
+    return this.shortcutModel.findById(id).populate('category').exec()
   }
 
-  updateShortcut(
+  async updateShortcut(
     id: MongooseSchema.Types.ObjectId,
     updateShortcutInput: UpdateShortcutInput
   ) {
-    return this.shortcutModel.findByIdAndUpdate(id, updateShortcutInput, {
-      new: true
-    })
+    return this.shortcutModel
+      .findByIdAndUpdate(id, updateShortcutInput, {
+        new: true
+      })
+      .exec()
   }
 
-  removeShortcut(id: MongooseSchema.Types.ObjectId) {
-    return this.shortcutModel.deleteOne({ _id: id })
+  async removeShortcut(id: MongooseSchema.Types.ObjectId) {
+    return this.shortcutModel.deleteOne({ _id: id }).exec()
   }
 }

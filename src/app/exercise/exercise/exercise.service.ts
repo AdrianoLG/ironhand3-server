@@ -20,7 +20,7 @@ export class ExerciseService {
     private completedExerciseModel: Model<CompletedExerciseDocument>
   ) {}
 
-  createExercise(createExerciseInput: CreateExerciseInput) {
+  async createExercise(createExerciseInput: CreateExerciseInput) {
     const types = ['cardio', 'strength', 'stretch']
     if (types.indexOf(createExerciseInput.type) >= 0) {
       const createdExercise = new this.exerciseModel(createExerciseInput)
@@ -29,26 +29,28 @@ export class ExerciseService {
     throw new Error(`Type must be one of the following: ${types.join(', ')}`)
   }
 
-  findAllExercises() {
+  async findAllExercises() {
     return this.exerciseModel.find().exec()
   }
 
-  getExerciseById(id: MongooseSchema.Types.ObjectId) {
-    return this.exerciseModel.findById(id)
+  async getExerciseById(id: MongooseSchema.Types.ObjectId) {
+    return this.exerciseModel.findById(id).exec()
   }
 
-  updateExercise(
+  async updateExercise(
     id: MongooseSchema.Types.ObjectId,
     updateExerciseInput: UpdateExerciseInput
   ) {
-    return this.exerciseModel.findByIdAndUpdate(id, updateExerciseInput, {
-      new: true
-    })
+    return this.exerciseModel
+      .findByIdAndUpdate(id, updateExerciseInput, {
+        new: true
+      })
+      .exec()
   }
 
   async removeExercise(id: MongooseSchema.Types.ObjectId) {
-    const result = await this.exerciseModel.findByIdAndDelete(id)
-    await this.completedExerciseModel.deleteMany({ exercise: id })
+    const result = await this.exerciseModel.findByIdAndDelete(id).exec()
+    await this.completedExerciseModel.deleteMany({ exercise: id }).exec()
     return result
   }
 }

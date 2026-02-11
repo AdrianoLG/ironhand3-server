@@ -4,7 +4,7 @@ import { CreateFileUploadInput } from './dto/create-file-upload.input'
 
 @Injectable()
 export class FileUploadService {
-  uploadFile(file: Express.Multer.File, dto: CreateFileUploadInput) {
+  async uploadFile(file: Express.Multer.File, dto: CreateFileUploadInput) {
     return {
       statusCode: 201,
       message: 'File uploaded successfully',

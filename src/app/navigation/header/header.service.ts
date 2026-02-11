@@ -14,29 +14,31 @@ export class HeaderService {
     private headerModel: Model<HeaderDocument>
   ) {}
 
-  createHeader(createHeaderInput: CreateHeaderInput) {
+  async createHeader(createHeaderInput: CreateHeaderInput) {
     const createdHeader = new this.headerModel(createHeaderInput)
     return createdHeader.save()
   }
 
-  findAllHeaders() {
+  async findAllHeaders() {
     return this.headerModel.find().exec()
   }
 
-  getHeaderById(id: MongooSchema.Types.ObjectId) {
+  async getHeaderById(id: MongooSchema.Types.ObjectId) {
     return this.headerModel.findById(id).exec()
   }
 
-  updateHeader(
+  async updateHeader(
     id: MongooSchema.Types.ObjectId,
     updateHeaderInput: UpdateHeaderInput
   ) {
-    return this.headerModel.findByIdAndUpdate(id, updateHeaderInput, {
-      new: true
-    })
+    return this.headerModel
+      .findByIdAndUpdate(id, updateHeaderInput, {
+        new: true
+      })
+      .exec()
   }
 
-  removeHeader(id: MongooSchema.Types.ObjectId) {
-    return this.headerModel.deleteOne({ _id: id })
+  async removeHeader(id: MongooSchema.Types.ObjectId) {
+    return this.headerModel.deleteOne({ _id: id }).exec()
   }
 }

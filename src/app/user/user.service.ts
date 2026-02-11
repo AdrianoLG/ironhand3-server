@@ -14,27 +14,29 @@ export class UserService {
     private userModel: Model<UserDocument>
   ) {}
 
-  createUser(createUserInput: CreateUserInput) {
+  async createUser(createUserInput: CreateUserInput) {
     const createdUser = new this.userModel(createUserInput)
     return createdUser.save()
   }
 
-  findAllUsers() {
+  async findAllUsers() {
     return this.userModel.find().exec()
   }
 
-  getUserById(id: MongooSchema.Types.ObjectId) {
-    return this.userModel.findById(id)
+  async getUserById(id: MongooSchema.Types.ObjectId) {
+    return this.userModel.findById(id).exec()
   }
 
-  updateUser(
+  async updateUser(
     id: MongooSchema.Types.ObjectId,
     updateUserInput: UpdateUserInput
   ) {
-    return this.userModel.findByIdAndUpdate(id, updateUserInput, { new: true })
+    return this.userModel
+      .findByIdAndUpdate(id, updateUserInput, { new: true })
+      .exec()
   }
 
-  removeUser(id: MongooSchema.Types.ObjectId) {
-    return this.userModel.deleteOne({ _id: id })
+  async removeUser(id: MongooSchema.Types.ObjectId) {
+    return this.userModel.deleteOne({ _id: id }).exec()
   }
 }

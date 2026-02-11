@@ -29,36 +29,36 @@ export class ShortcutCategoryService {
       createShortcutCategoryInput
     )
     createdShortcutCategory.shortcuts.map(async (shortcutId) => {
-      await this.shortcutModel.findByIdAndUpdate(
-        shortcutId,
-        { category: createdShortcutCategory._id },
-        { new: true }
-      )
+      await this.shortcutModel
+        .findByIdAndUpdate(
+          shortcutId,
+          { category: createdShortcutCategory._id },
+          { new: true }
+        )
+        .exec()
     })
 
     return createdShortcutCategory.save()
   }
 
-  findAllShortcutCategories() {
+  async findAllShortcutCategories() {
     return this.shortcutCategoryModel.find().populate('shortcuts').exec()
   }
 
-  getShortcutCategoryById(id: MongooSchema.Types.ObjectId) {
-    return this.shortcutCategoryModel.findById(id).populate('shortcuts')
+  async getShortcutCategoryById(id: MongooSchema.Types.ObjectId) {
+    return this.shortcutCategoryModel.findById(id).populate('shortcuts').exec()
   }
 
-  updateShortcutCategoryInput(
+  async updateShortcutCategoryInput(
     id: MongooSchema.Types.ObjectId,
     updateShortcutCategoryInput: UpdateShortcutCategoryInput
   ) {
-    return this.shortcutCategoryModel.findByIdAndUpdate(
-      id,
-      updateShortcutCategoryInput,
-      { new: true }
-    )
+    return this.shortcutCategoryModel
+      .findByIdAndUpdate(id, updateShortcutCategoryInput, { new: true })
+      .exec()
   }
 
-  removeShortcutCategory(id: MongooSchema.Types.ObjectId) {
-    return this.shortcutCategoryModel.deleteOne({ _id: id })
+  async removeShortcutCategory(id: MongooSchema.Types.ObjectId) {
+    return this.shortcutCategoryModel.deleteOne({ _id: id }).exec()
   }
 }

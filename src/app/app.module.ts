@@ -19,6 +19,9 @@ import { HeaderModule } from './navigation/header/header.module'
 import { ShortcutCategoryModule } from './settings/shortcut-category/shortcut-category.module'
 import { ShortcutsModule } from './settings/shortcut/shortcut.module'
 import { UserModule } from './user/user.module'
+import { RehearsalModule } from './rehearsal/rehearsal/rehearsal.module';
+import { InstrumentModule } from './rehearsal/instrument/instrument.module';
+import { SheetModule } from './rehearsal/sheet/sheet.module';
 
 @Module({
   imports: [
@@ -54,7 +57,10 @@ import { UserModule } from './user/user.module'
     FileUploadModule,
     CleaningTasksModule,
     CompletedCleaningTasksModule,
-    RoomsModule
+    RoomsModule,
+    RehearsalModule,
+    InstrumentModule,
+    SheetModule
   ],
   controllers: [],
   providers: []

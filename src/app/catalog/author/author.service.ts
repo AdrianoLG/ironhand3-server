@@ -20,40 +20,45 @@ export class AuthorService {
   async createAuthor(createAuthorInput: CreateAuthorInput) {
     const createdAuthor = new this.authorModel(createAuthorInput)
     createAuthorInput.books.map(async (bookId) => {
-      await this.bookModel.findByIdAndUpdate(
-        bookId,
-        { $push: { authors: createdAuthor._id } },
-        { new: true }
-      )
+      await this.bookModel
+        .findByIdAndUpdate(
+          bookId,
+          { $push: { authors: createdAuthor._id } },
+          { new: true }
+        )
+        .exec()
     })
     return createdAuthor.save()
   }
 
   async findAllAuthors(limit: number, skip: number) {
-    const authorsCount = await this.authorModel.countDocuments()
+    const authorsCount = await this.authorModel.countDocuments().exec()
     const authorList = await this.authorModel
       .find()
       .populate('books')
       .skip(skip)
       .limit(limit)
+      .exec()
 
     return { authorList, authorsCount }
   }
 
-  getAuthorById(id: MongooSchema.Types.ObjectId) {
-    return this.authorModel.findById(id)
+  async getAuthorById(id: MongooSchema.Types.ObjectId) {
+    return this.authorModel.findById(id).exec()
   }
 
-  updateAuthor(
+  async updateAuthor(
     id: MongooSchema.Types.ObjectId,
     updateAuthorInput: UpdateAuthorInput
   ) {
-    return this.authorModel.findByIdAndUpdate(id, updateAuthorInput, {
-      new: true
-    })
+    return this.authorModel
+      .findByIdAndUpdate(id, updateAuthorInput, {
+        new: true
+      })
+      .exec()
   }
 
-  removeAuthor(id: MongooSchema.Types.ObjectId) {
-    return this.authorModel.deleteOne({ _id: id })
+  async removeAuthor(id: MongooSchema.Types.ObjectId) {
+    return this.authorModel.deleteOne({ _id: id }).exec()
   }
 }

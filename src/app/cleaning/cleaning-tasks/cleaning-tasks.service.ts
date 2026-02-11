@@ -17,14 +17,14 @@ export class CleaningTasksService {
     private cleaningTaskModel: Model<CleaningTaskDocument>
   ) {}
 
-  createCleaningTask(createCleaningTaskInput: CreateCleaningTaskInput) {
+  async createCleaningTask(createCleaningTaskInput: CreateCleaningTaskInput) {
     const createdCleaningTask = new this.cleaningTaskModel(
       createCleaningTaskInput
     )
     return createdCleaningTask.save()
   }
 
-  findAllCleaningTasks() {
+  async findAllCleaningTasks() {
     return this.cleaningTaskModel
       .find()
       .sort({ date: -1 })
@@ -32,22 +32,20 @@ export class CleaningTasksService {
       .exec()
   }
 
-  getCleaningTaskById(id: MongooseSchema.Types.ObjectId) {
-    return this.cleaningTaskModel.findById(id).populate('possibleRooms')
+  async getCleaningTaskById(id: MongooseSchema.Types.ObjectId) {
+    return this.cleaningTaskModel.findById(id).populate('possibleRooms').exec()
   }
 
-  updateCleaningTask(
+  async updateCleaningTask(
     id: MongooseSchema.Types.ObjectId,
     updateCleaningTaskInput: UpdateCleaningTaskInput
   ) {
-    return this.cleaningTaskModel.findByIdAndUpdate(
-      id,
-      updateCleaningTaskInput,
-      { new: true }
-    )
+    return this.cleaningTaskModel
+      .findByIdAndUpdate(id, updateCleaningTaskInput, { new: true })
+      .exec()
   }
 
-  removeCleaningTask(id: MongooseSchema.Types.ObjectId) {
-    return this.cleaningTaskModel.findByIdAndDelete(id)
+  async removeCleaningTask(id: MongooseSchema.Types.ObjectId) {
+    return this.cleaningTaskModel.findByIdAndDelete(id).exec()
   }
 }

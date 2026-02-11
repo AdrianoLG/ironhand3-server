@@ -212,6 +212,53 @@ type User {
   city: String
 }
 
+type Instrument {
+  _id: String!
+
+  """Instrument name"""
+  name: String!
+
+  """Slug for the instrument"""
+  slug: String!
+
+  """Image for the instrument"""
+  img: String!
+}
+
+type Sheet {
+  _id: String!
+
+  """Sheet title"""
+  title: String!
+
+  """Artist name"""
+  artist: String!
+
+  """Possible instruments used"""
+  possibleInstruments: [Instrument!]!
+}
+
+type RehearsalSheet {
+  """Sheet"""
+  sheet: Sheet!
+
+  """Duration in minutes"""
+  duration: Int!
+}
+
+type Rehearsal {
+  _id: String!
+
+  """Instrument"""
+  instrument: Instrument!
+
+  """Completed at"""
+  completedAt: DateTime!
+
+  """Sheets"""
+  sheets: [RehearsalSheet!]!
+}
+
 type Query {
   users: [User!]!
   user(id: String!): User!
@@ -235,6 +282,12 @@ type Query {
   completedCleaningTask(id: String!): CompletedCleaningTask!
   rooms: [Room!]!
   room(id: String!): Room!
+  rehearsals: [Rehearsal!]!
+  rehearsal(id: String!): Rehearsal!
+  instruments: [Instrument!]!
+  instrument(id: String!): Instrument!
+  sheets: [Sheet!]!
+  sheet(id: Int!): Sheet!
 }
 
 type Mutation {
@@ -271,6 +324,15 @@ type Mutation {
   createRoom(createRoomInput: CreateRoomInput!): Room!
   updateRoom(updateRoomInput: UpdateRoomInput!): Room!
   removeRoom(id: String!): Room!
+  createRehearsal(createRehearsalInput: CreateRehearsalInput!): Rehearsal!
+  updateRehearsal(updateRehearsalInput: UpdateRehearsalInput!): Rehearsal!
+  removeRehearsal(id: String!): Rehearsal!
+  createInstrument(createInstrumentInput: CreateInstrumentInput!): Instrument!
+  updateInstrument(updateInstrumentInput: UpdateInstrumentInput!): Instrument!
+  removeInstrument(id: String!): Instrument!
+  createSheet(createSheetInput: CreateSheetInput!): Sheet!
+  updateSheet(updateSheetInput: UpdateSheetInput!): Sheet!
+  removeSheet(id: Int!): Sheet!
 }
 
 input CreateUserInput {
@@ -607,5 +669,82 @@ input UpdateRoomInput {
 
   """Room image"""
   image: String
+  _id: String!
+}
+
+input CreateRehearsalInput {
+  """Instrument ID"""
+  instrument: String!
+
+  """Completed at"""
+  completedAt: DateTime!
+
+  """Sheets played"""
+  sheets: [RehearsalSheetInput!]!
+}
+
+input RehearsalSheetInput {
+  """Sheet ID"""
+  sheet: String!
+
+  """Duration in minutes"""
+  duration: Int!
+}
+
+input UpdateRehearsalInput {
+  """Instrument ID"""
+  instrument: String
+
+  """Completed at"""
+  completedAt: DateTime
+
+  """Sheets played"""
+  sheets: [RehearsalSheetInput!]
+  _id: String!
+}
+
+input CreateInstrumentInput {
+  """Instrument name"""
+  name: String!
+
+  """Slug for the instrument"""
+  slug: String!
+
+  """Image for the instrument"""
+  img: String!
+}
+
+input UpdateInstrumentInput {
+  """Instrument name"""
+  name: String
+
+  """Slug for the instrument"""
+  slug: String
+
+  """Image for the instrument"""
+  img: String
+  _id: String!
+}
+
+input CreateSheetInput {
+  """Sheet title"""
+  title: String!
+
+  """Artist name"""
+  artist: String!
+
+  """Possible instruments used"""
+  possibleInstruments: [String!]!
+}
+
+input UpdateSheetInput {
+  """Sheet title"""
+  title: String
+
+  """Artist name"""
+  artist: String
+
+  """Possible instruments used"""
+  possibleInstruments: [String!]
   _id: String!
 }

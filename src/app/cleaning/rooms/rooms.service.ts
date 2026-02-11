@@ -13,29 +13,31 @@ export class RoomsService {
     @InjectModel(Room.name)
     private roomModel: Model<RoomDocument>
   ) {}
-  createRoom(createRoomInput: CreateRoomInput) {
+  async createRoom(createRoomInput: CreateRoomInput) {
     const createdRoom = new this.roomModel(createRoomInput)
     return createdRoom.save()
   }
 
-  findAllRooms() {
+  async findAllRooms() {
     return this.roomModel.find().exec()
   }
 
-  getRoomById(id: MongooseSchema.Types.ObjectId) {
-    return this.roomModel.findById(id)
+  async getRoomById(id: MongooseSchema.Types.ObjectId) {
+    return this.roomModel.findById(id).exec()
   }
 
-  updateRoom(
+  async updateRoom(
     id: MongooseSchema.Types.ObjectId,
     updateRoomInput: UpdateRoomInput
   ) {
-    return this.roomModel.findByIdAndUpdate(id, updateRoomInput, {
-      new: true
-    })
+    return this.roomModel
+      .findByIdAndUpdate(id, updateRoomInput, {
+        new: true
+      })
+      .exec()
   }
 
-  removeRoom(id: MongooseSchema.Types.ObjectId) {
-    return this.roomModel.findByIdAndDelete(id)
+  async removeRoom(id: MongooseSchema.Types.ObjectId) {
+    return this.roomModel.findByIdAndDelete(id).exec()
   }
 }

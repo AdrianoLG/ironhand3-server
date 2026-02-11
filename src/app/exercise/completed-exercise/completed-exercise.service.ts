@@ -26,7 +26,7 @@ export class CompletedExerciseService {
     return createdCompletedExercise.save()
   }
 
-  findAllCompletedExercises() {
+  async findAllCompletedExercises() {
     return this.completedExerciseModel
       .find()
       .sort({ date: -1 })
@@ -34,27 +34,26 @@ export class CompletedExerciseService {
       .exec()
   }
 
-  getCompletedExerciseById(id: MongooseSchema.Types.ObjectId) {
+  async getCompletedExerciseById(id: MongooseSchema.Types.ObjectId) {
     return this.completedExerciseModel
       .findById(id)
       .sort({ date: -1 })
       .populate('exercise')
+      .exec()
   }
 
-  updateCompletedExercise(
+  async updateCompletedExercise(
     id: MongooseSchema.Types.ObjectId,
     updateCompletedExerciseInput: UpdateCompletedExerciseInput
   ) {
-    return this.completedExerciseModel.findByIdAndUpdate(
-      id,
-      updateCompletedExerciseInput,
-      {
+    return this.completedExerciseModel
+      .findByIdAndUpdate(id, updateCompletedExerciseInput, {
         new: true
-      }
-    )
+      })
+      .exec()
   }
 
-  removeCompletedExercise(id: MongooseSchema.Types.ObjectId) {
-    return this.completedExerciseModel.findByIdAndDelete(id)
+  async removeCompletedExercise(id: MongooseSchema.Types.ObjectId) {
+    return this.completedExerciseModel.findByIdAndDelete(id).exec()
   }
 }

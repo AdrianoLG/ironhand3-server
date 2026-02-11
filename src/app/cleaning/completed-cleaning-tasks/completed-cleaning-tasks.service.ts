@@ -14,7 +14,7 @@ export class CompletedCleaningTasksService {
     private completedCleaningTaskModel: Model<CompletedCleaningTask>
   ) {}
 
-  createCompletedCleaningTask(
+  async createCompletedCleaningTask(
     createCompletedCleaningTaskInput: CreateCompletedCleaningTaskInput
   ) {
     const createdCompletedCleaningTask = new this.completedCleaningTaskModel(
@@ -23,7 +23,7 @@ export class CompletedCleaningTasksService {
     return createdCompletedCleaningTask.save()
   }
 
-  findAllCompletedCleaningTasks() {
+  async findAllCompletedCleaningTasks() {
     return this.completedCleaningTaskModel
       .find()
       .sort({ date: -1 })
@@ -32,11 +32,12 @@ export class CompletedCleaningTasksService {
       .exec()
   }
 
-  getCompletedCleaningTaskById(id: MongooseSchema.Types.ObjectId) {
+  async getCompletedCleaningTaskById(id: MongooseSchema.Types.ObjectId) {
     return this.completedCleaningTaskModel
       .findById(id)
       .populate('rooms')
       .populate('cleaningTask')
+      .exec()
   }
 
   async updateCompletedCleaningTask(
@@ -54,7 +55,7 @@ export class CompletedCleaningTasksService {
     return updatedTask
   }
 
-  removeCompletedCleaningTask(id: MongooseSchema.Types.ObjectId) {
-    return this.completedCleaningTaskModel.findByIdAndDelete(id)
+  async removeCompletedCleaningTask(id: MongooseSchema.Types.ObjectId) {
+    return this.completedCleaningTaskModel.findByIdAndDelete(id).exec()
   }
 }
