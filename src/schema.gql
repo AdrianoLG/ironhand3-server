@@ -287,7 +287,7 @@ type Query {
   instruments: [Instrument!]!
   instrument(id: String!): Instrument!
   sheets: [Sheet!]!
-  sheet(id: Int!): Sheet!
+  sheet(id: String!): Sheet!
 }
 
 type Mutation {
@@ -332,7 +332,7 @@ type Mutation {
   removeInstrument(id: String!): Instrument!
   createSheet(createSheetInput: CreateSheetInput!): Sheet!
   updateSheet(updateSheetInput: UpdateSheetInput!): Sheet!
-  removeSheet(id: Int!): Sheet!
+  removeSheet(id: String!): Sheet!
 }
 
 input CreateUserInput {

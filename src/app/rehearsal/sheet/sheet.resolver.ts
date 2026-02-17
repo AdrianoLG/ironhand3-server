@@ -1,6 +1,6 @@
 import { Schema as MongooseSchema } from 'mongoose'
 
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 
 import { CreateSheetInput } from './dto/create-sheet.input'
 import { UpdateSheetInput } from './dto/update-sheet.input'
@@ -22,7 +22,9 @@ export class SheetResolver {
   }
 
   @Query(() => Sheet, { name: 'sheet' })
-  findOne(@Args('id', { type: () => Int }) id: MongooseSchema.Types.ObjectId) {
+  findOne(
+    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId
+  ) {
     return this.sheetService.getSheetById(id)
   }
 
@@ -33,7 +35,7 @@ export class SheetResolver {
 
   @Mutation(() => Sheet)
   removeSheet(
-    @Args('id', { type: () => Int }) id: MongooseSchema.Types.ObjectId
+    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId
   ) {
     return this.sheetService.removeSheet(id)
   }
