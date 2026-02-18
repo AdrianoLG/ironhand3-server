@@ -16,7 +16,6 @@ export class InstrumentService {
 
   async createInstrument(createInstrumentInput: CreateInstrumentInput) {
     const createdInstrument = new this.instrumentModel(createInstrumentInput)
-    console.log('Created Instrument:', createdInstrument) // Debug log
     return createdInstrument.save()
   }
 
