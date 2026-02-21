@@ -22,6 +22,12 @@ import { UserModule } from './user/user.module'
 import { RehearsalModule } from './rehearsal/rehearsal/rehearsal.module';
 import { InstrumentModule } from './rehearsal/instrument/instrument.module';
 import { SheetModule } from './rehearsal/sheet/sheet.module';
+import { PlantModule } from './garden/plant/plant.module';
+import { SpecieModule } from './garden/specie/specie.module';
+import { CropModule } from './garden/crop/crop.module';
+import { CropContainerModule } from './garden/crop-container/crop-container.module';
+import { WateringModule } from './garden/watering/watering.module';
+import { FertilizerModule } from './garden/fertilizer/fertilizer.module';
 
 @Module({
   imports: [
@@ -60,7 +66,13 @@ import { SheetModule } from './rehearsal/sheet/sheet.module';
     RoomsModule,
     RehearsalModule,
     InstrumentModule,
-    SheetModule
+    SheetModule,
+    PlantModule,
+    SpecieModule,
+    CropModule,
+    CropContainerModule,
+    WateringModule,
+    FertilizerModule
   ],
   controllers: [],
   providers: []

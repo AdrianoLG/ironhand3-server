@@ -259,6 +259,140 @@ type Rehearsal {
   sheets: [RehearsalSheet!]!
 }
 
+type Specie {
+  _id: String!
+
+  """Specie name"""
+  name: String!
+
+  """Specie image"""
+  image: String
+
+  """Category"""
+  category: SpecieCategory!
+
+  """Comments"""
+  comments: String
+}
+
+enum SpecieCategory {
+  VEGETABLES
+  FRUITS
+  HERBS
+  MEDICINAL
+}
+
+type Fertilizer {
+  _id: String!
+
+  """Fertilizer name"""
+  name: String!
+
+  """Comments"""
+  comments: String
+
+  """Image"""
+  img: String!
+}
+
+type WateringFertilizer {
+  """Quantity"""
+  qty: Int!
+
+  """Fertilizer"""
+  fertilizer: Fertilizer!
+}
+
+type Watering {
+  _id: String!
+
+  """Watering date"""
+  date: DateTime!
+
+  """Water amount"""
+  water: Int!
+
+  """Fertilizers used"""
+  fertilizers: [WateringFertilizer!]!
+}
+
+type PlantDeath {
+  """Death date"""
+  date: DateTime!
+
+  """Death cause"""
+  cause: PlantDeathCause!
+}
+
+enum PlantDeathCause {
+  UNBORN
+  IRRIGATION
+  HARVESTED
+  OVERFERTILIZATION
+  WEATHER
+  OTHER
+}
+
+type Plant {
+  _id: String!
+
+  """Plant name"""
+  name: String!
+
+  """Specie"""
+  specie: Specie!
+
+  """Planted date"""
+  planted: DateTime!
+
+  """Bloom dates"""
+  inBloom: [DateTime!]
+
+  """Harvested dates"""
+  harvested: [DateTime!]
+
+  """Death info"""
+  death: PlantDeath
+
+  """Watering history"""
+  watering: [Watering!]
+}
+
+type CropContainer {
+  _id: String!
+
+  """Crop container name"""
+  name: String!
+
+  """Image for the crop container"""
+  img: String!
+
+  """Capacity"""
+  capacity: Int!
+
+  """Automatic mode"""
+  auto: Boolean!
+}
+
+type Crop {
+  _id: String!
+
+  """Start date"""
+  startDate: DateTime!
+
+  """End date"""
+  endDate: DateTime!
+
+  """Plants"""
+  plants: [Plant!]!
+
+  """Gallery"""
+  gallery: [String!]!
+
+  """Crop container"""
+  cropContainer: CropContainer!
+}
+
 type Query {
   users: [User!]!
   user(id: String!): User!
@@ -288,6 +422,18 @@ type Query {
   instrument(id: String!): Instrument!
   sheets: [Sheet!]!
   sheet(id: String!): Sheet!
+  plants: [Plant!]!
+  plant(id: String!): Plant!
+  species: [Specie!]!
+  specie(id: String!): Specie!
+  crops: [Crop!]!
+  crop(id: String!): Crop!
+  cropContainers: [CropContainer!]!
+  cropContainer(id: String!): CropContainer!
+  waterings: [Watering!]!
+  watering(id: String!): Watering!
+  fertilizers: [Fertilizer!]!
+  fertilizer(id: String!): Fertilizer!
 }
 
 type Mutation {
@@ -333,6 +479,24 @@ type Mutation {
   createSheet(createSheetInput: CreateSheetInput!): Sheet!
   updateSheet(updateSheetInput: UpdateSheetInput!): Sheet!
   removeSheet(id: String!): Sheet!
+  createPlant(createPlantInput: CreatePlantInput!): Plant!
+  updatePlant(updatePlantInput: UpdatePlantInput!): Plant!
+  removePlant(id: String!): Plant!
+  createSpecie(createSpecieInput: CreateSpecieInput!): Specie!
+  updateSpecie(updateSpecieInput: UpdateSpecieInput!): Specie!
+  removeSpecie(id: String!): Specie!
+  createCrop(createCropInput: CreateCropInput!): Crop!
+  updateCrop(updateCropInput: UpdateCropInput!): Crop!
+  removeCrop(id: String!): Crop!
+  createCropContainer(createCropContainerInput: CreateCropContainerInput!): CropContainer!
+  updateCropContainer(updateCropContainerInput: UpdateCropContainerInput!): CropContainer!
+  removeCropContainer(id: String!): CropContainer!
+  createWatering(createWateringInput: CreateWateringInput!): Watering!
+  updateWatering(updateWateringInput: UpdateWateringInput!): Watering!
+  removeWatering(id: String!): Watering!
+  createFertilizer(createFertilizerInput: CreateFertilizerInput!): Fertilizer!
+  updateFertilizer(updateFertilizerInput: UpdateFertilizerInput!): Fertilizer!
+  removeFertilizer(id: String!): Fertilizer!
 }
 
 input CreateUserInput {
@@ -746,5 +910,207 @@ input UpdateSheetInput {
 
   """Possible instruments used"""
   possibleInstruments: [String!]
+  _id: String!
+}
+
+input CreatePlantInput {
+  """Plant name"""
+  name: String!
+
+  """Specie ID"""
+  specie: String!
+
+  """Planted date"""
+  planted: DateTime!
+
+  """Bloom dates"""
+  inBloom: [DateTime!]
+
+  """Harvested dates"""
+  harvested: [DateTime!]
+
+  """Death info"""
+  death: PlantDeathInput
+
+  """Watering IDs"""
+  watering: [String!]
+}
+
+input PlantDeathInput {
+  """Death date"""
+  date: DateTime!
+
+  """Death cause"""
+  cause: PlantDeathCause!
+}
+
+input UpdatePlantInput {
+  """Plant name"""
+  name: String
+
+  """Specie ID"""
+  specie: String
+
+  """Planted date"""
+  planted: DateTime
+
+  """Bloom dates"""
+  inBloom: [DateTime!]
+
+  """Harvested dates"""
+  harvested: [DateTime!]
+
+  """Death info"""
+  death: PlantDeathInput
+
+  """Watering IDs"""
+  watering: [String!]
+  _id: String!
+}
+
+input CreateSpecieInput {
+  """Specie name"""
+  name: String!
+
+  """Specie image"""
+  image: String!
+
+  """Category"""
+  category: SpecieCategory!
+
+  """Comments"""
+  comments: String!
+}
+
+input UpdateSpecieInput {
+  """Specie name"""
+  name: String
+
+  """Specie image"""
+  image: String
+
+  """Category"""
+  category: SpecieCategory
+
+  """Comments"""
+  comments: String
+  _id: String!
+}
+
+input CreateCropInput {
+  """Start date"""
+  startDate: DateTime!
+
+  """End date"""
+  endDate: DateTime!
+
+  """Plant IDs"""
+  plants: [String!]
+
+  """Gallery"""
+  gallery: [String!]
+
+  """CropContainer ID"""
+  cropContainer: String!
+}
+
+input UpdateCropInput {
+  """Start date"""
+  startDate: DateTime
+
+  """End date"""
+  endDate: DateTime
+
+  """Plant IDs"""
+  plants: [String!]
+
+  """Gallery"""
+  gallery: [String!]
+
+  """CropContainer ID"""
+  cropContainer: String
+  _id: String!
+}
+
+input CreateCropContainerInput {
+  """Crop container name"""
+  name: String!
+
+  """Image for the crop container"""
+  img: String!
+
+  """Capacity"""
+  capacity: Int!
+
+  """Automatic mode"""
+  auto: Boolean!
+}
+
+input UpdateCropContainerInput {
+  """Crop container name"""
+  name: String
+
+  """Image for the crop container"""
+  img: String
+
+  """Capacity"""
+  capacity: Int
+
+  """Automatic mode"""
+  auto: Boolean
+  _id: String!
+}
+
+input CreateWateringInput {
+  """Watering date"""
+  date: DateTime!
+
+  """Water amount"""
+  water: Int!
+
+  """Fertilizers used"""
+  fertilizers: [WateringFertilizerInput!]!
+}
+
+input WateringFertilizerInput {
+  """Quantity"""
+  qty: Int!
+
+  """Fertilizer ID"""
+  fertilizer: String!
+}
+
+input UpdateWateringInput {
+  """Watering date"""
+  date: DateTime
+
+  """Water amount"""
+  water: Int
+
+  """Fertilizers used"""
+  fertilizers: [WateringFertilizerInput!]
+  _id: String!
+}
+
+input CreateFertilizerInput {
+  """Fertilizer name"""
+  name: String!
+
+  """Comments"""
+  comments: String!
+
+  """Image"""
+  img: String!
+}
+
+input UpdateFertilizerInput {
+  """Fertilizer name"""
+  name: String
+
+  """Comments"""
+  comments: String
+
+  """Image"""
+  img: String
   _id: String!
 }
