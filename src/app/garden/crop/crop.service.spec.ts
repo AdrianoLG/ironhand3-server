@@ -68,24 +68,32 @@ describe('CropService', () => {
     expect(mockModel).toHaveBeenCalledWith(input)
   })
 
-  it('findAllCrops should sort by startDate desc and populate plants + cropContainer', async () => {
+  it('findAllCrops should sort by startDate desc and populate plants + cropContainer + watering(fertilizers)', async () => {
     const result = await service.findAllCrops()
     expect(result).toEqual([{ _id: 'c1' }])
     expect(mockModel.find).toHaveBeenCalled()
     expect(findChain.sort).toHaveBeenCalledWith({ startDate: -1 })
     expect(findChain.populate).toHaveBeenNthCalledWith(1, 'plants')
     expect(findChain.populate).toHaveBeenNthCalledWith(2, 'cropContainer')
+    expect(findChain.populate).toHaveBeenNthCalledWith(3, {
+      path: 'watering',
+      populate: { path: 'fertilizers.fertilizer' }
+    })
   })
 
-  it('getCropById should populate plants + cropContainer', async () => {
+  it('getCropById should populate plants + cropContainer + watering(fertilizers)', async () => {
     const result = await service.getCropById('id1' as any)
     expect(result).toEqual({ _id: 'c1' })
     expect(mockModel.findById).toHaveBeenCalledWith('id1')
     expect(findByIdChain.populate).toHaveBeenNthCalledWith(1, 'plants')
     expect(findByIdChain.populate).toHaveBeenNthCalledWith(2, 'cropContainer')
+    expect(findByIdChain.populate).toHaveBeenNthCalledWith(3, {
+      path: 'watering',
+      populate: { path: 'fertilizers.fertilizer' }
+    })
   })
 
-  it('updateCrop should update with new:true and populate plants + cropContainer', async () => {
+  it('updateCrop should update with new:true and populate plants + cropContainer + watering(fertilizers)', async () => {
     const update = { _id: 'id1', name: 'Updated' } as any
     const result = await service.updateCrop('id1' as any, update)
     expect(result).toEqual({ _id: 'c2' })
@@ -94,6 +102,10 @@ describe('CropService', () => {
     })
     expect(updateChain.populate).toHaveBeenNthCalledWith(1, 'plants')
     expect(updateChain.populate).toHaveBeenNthCalledWith(2, 'cropContainer')
+    expect(updateChain.populate).toHaveBeenNthCalledWith(3, {
+      path: 'watering',
+      populate: { path: 'fertilizers.fertilizer' }
+    })
   })
 
   it('removeCrop should delete', async () => {

@@ -24,22 +24,11 @@ export class PlantService {
       .find()
       .sort({ planted: -1 })
       .populate('specie')
-      .populate({
-        path: 'watering',
-        populate: { path: 'fertilizers.fertilizer' }
-      })
       .exec()
   }
 
   async getPlantById(id: MongooseSchema.Types.ObjectId) {
-    return this.plantModel
-      .findById(id)
-      .populate('specie')
-      .populate({
-        path: 'watering',
-        populate: { path: 'fertilizers.fertilizer' }
-      })
-      .exec()
+    return this.plantModel.findById(id).populate('specie').exec()
   }
 
   async updatePlant(
@@ -51,10 +40,6 @@ export class PlantService {
         new: true
       })
       .populate('specie')
-      .populate({
-        path: 'watering',
-        populate: { path: 'fertilizers.fertilizer' }
-      })
       .exec()
   }
 

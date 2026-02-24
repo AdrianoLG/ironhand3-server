@@ -5,6 +5,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 
 import { CropContainer } from '../../crop-container/entities/crop-container.entity'
 import { Plant } from '../../plant/entities/plant.entity'
+import { Watering } from '../../watering/entities/watering.entity'
 
 @ObjectType()
 @Schema()
@@ -30,6 +31,17 @@ export class Crop {
   @Field(() => [String], { description: 'Gallery' })
   @Prop({ type: [String], default: [] })
   gallery: string[]
+
+  @Field(() => [Watering], { description: 'Watering history', nullable: true })
+  @Prop({
+    type: [{ type: MongoSchema.Types.ObjectId, ref: 'Watering' }],
+    default: []
+  })
+  watering?: (Watering | MongoSchema.Types.ObjectId)[]
+
+  @Field(() => String, { description: 'Comments', nullable: true })
+  @Prop()
+  comments?: string
 
   @Field(() => CropContainer, { description: 'Crop container' })
   @Prop({

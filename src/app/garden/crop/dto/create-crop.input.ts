@@ -14,6 +14,12 @@ export class CreateCropInput {
   @Field(() => [String], { description: 'Gallery', nullable: true })
   gallery?: string[]
 
+  @Field(() => [String], { description: 'Watering IDs', nullable: true })
+  watering?: string[]
+
+  @Field(() => String, { description: 'Comments', nullable: true })
+  comments?: string
+
   @Field(() => String, { description: 'CropContainer ID' })
   cropContainer: string
 }

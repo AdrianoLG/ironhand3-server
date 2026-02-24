@@ -25,6 +25,10 @@ export class CropService {
       .sort({ startDate: -1 })
       .populate('plants')
       .populate('cropContainer')
+      .populate({
+        path: 'watering',
+        populate: { path: 'fertilizers.fertilizer' }
+      })
       .exec()
   }
 
@@ -33,6 +37,10 @@ export class CropService {
       .findById(id)
       .populate('plants')
       .populate('cropContainer')
+      .populate({
+        path: 'watering',
+        populate: { path: 'fertilizers.fertilizer' }
+      })
       .exec()
   }
 
@@ -46,6 +54,10 @@ export class CropService {
       })
       .populate('plants')
       .populate('cropContainer')
+      .populate({
+        path: 'watering',
+        populate: { path: 'fertilizers.fertilizer' }
+      })
       .exec()
   }
 

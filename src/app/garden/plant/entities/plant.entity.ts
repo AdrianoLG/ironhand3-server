@@ -4,7 +4,6 @@ import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 
 import { Specie } from '../../specie/entities/specie.entity'
-import { Watering } from '../../watering/entities/watering.entity'
 
 export enum PlantDeathCause {
   UNBORN = 'unborn',
@@ -67,13 +66,6 @@ export class Plant {
     required: false
   })
   death?: { date: Date; cause: PlantDeathCause }
-
-  @Field(() => [Watering], { description: 'Watering history', nullable: true })
-  @Prop({
-    type: [{ type: MongoSchema.Types.ObjectId, ref: 'Watering' }],
-    default: []
-  })
-  watering?: (Watering | MongoSchema.Types.ObjectId)[]
 }
 
 export type PlantDocument = Plant & Document

@@ -68,30 +68,22 @@ describe('PlantService', () => {
     expect(mockModel).toHaveBeenCalledWith(input)
   })
 
-  it('findAllPlants should sort by planted desc and populate specie + watering(fertilizers)', async () => {
+  it('findAllPlants should sort by planted desc and populate specie', async () => {
     const result = await service.findAllPlants()
     expect(result).toEqual([{ _id: 'p1' }])
     expect(mockModel.find).toHaveBeenCalled()
     expect(findChain.sort).toHaveBeenCalledWith({ planted: -1 })
     expect(findChain.populate).toHaveBeenNthCalledWith(1, 'specie')
-    expect(findChain.populate).toHaveBeenNthCalledWith(2, {
-      path: 'watering',
-      populate: { path: 'fertilizers.fertilizer' }
-    })
   })
 
-  it('getPlantById should populate specie + watering(fertilizers)', async () => {
+  it('getPlantById should populate specie', async () => {
     const result = await service.getPlantById('id1' as any)
     expect(result).toEqual({ _id: 'p1' })
     expect(mockModel.findById).toHaveBeenCalledWith('id1')
     expect(findByIdChain.populate).toHaveBeenNthCalledWith(1, 'specie')
-    expect(findByIdChain.populate).toHaveBeenNthCalledWith(2, {
-      path: 'watering',
-      populate: { path: 'fertilizers.fertilizer' }
-    })
   })
 
-  it('updatePlant should update with new:true and populate specie + watering(fertilizers)', async () => {
+  it('updatePlant should update with new:true and populate specie', async () => {
     const update = { _id: 'id1', name: 'Updated' } as any
     const result = await service.updatePlant('id1' as any, update)
     expect(result).toEqual({ _id: 'p2' })
@@ -99,10 +91,6 @@ describe('PlantService', () => {
       new: true
     })
     expect(updateChain.populate).toHaveBeenNthCalledWith(1, 'specie')
-    expect(updateChain.populate).toHaveBeenNthCalledWith(2, {
-      path: 'watering',
-      populate: { path: 'fertilizers.fertilizer' }
-    })
   })
 
   it('removePlant should delete', async () => {

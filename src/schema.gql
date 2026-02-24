@@ -282,40 +282,6 @@ enum SpecieCategory {
   MEDICINAL
 }
 
-type Fertilizer {
-  _id: String!
-
-  """Fertilizer name"""
-  name: String!
-
-  """Comments"""
-  comments: String
-
-  """Image"""
-  img: String!
-}
-
-type WateringFertilizer {
-  """Quantity"""
-  qty: Int!
-
-  """Fertilizer"""
-  fertilizer: Fertilizer!
-}
-
-type Watering {
-  _id: String!
-
-  """Watering date"""
-  date: DateTime!
-
-  """Water amount"""
-  water: Int!
-
-  """Fertilizers used"""
-  fertilizers: [WateringFertilizer!]!
-}
-
 type PlantDeath {
   """Death date"""
   date: DateTime!
@@ -353,9 +319,6 @@ type Plant {
 
   """Death info"""
   death: PlantDeath
-
-  """Watering history"""
-  watering: [Watering!]
 }
 
 type CropContainer {
@@ -374,6 +337,40 @@ type CropContainer {
   auto: Boolean!
 }
 
+type Fertilizer {
+  _id: String!
+
+  """Fertilizer name"""
+  name: String!
+
+  """Comments"""
+  comments: String
+
+  """Image"""
+  img: String!
+}
+
+type WateringFertilizer {
+  """Quantity"""
+  qty: Int!
+
+  """Fertilizer"""
+  fertilizer: Fertilizer!
+}
+
+type Watering {
+  _id: String!
+
+  """Watering date"""
+  date: DateTime!
+
+  """Water amount"""
+  water: Int!
+
+  """Fertilizers used"""
+  fertilizers: [WateringFertilizer!]!
+}
+
 type Crop {
   _id: String!
 
@@ -388,6 +385,12 @@ type Crop {
 
   """Gallery"""
   gallery: [String!]!
+
+  """Watering history"""
+  watering: [Watering!]
+
+  """Comments"""
+  comments: String
 
   """Crop container"""
   cropContainer: CropContainer!
@@ -931,9 +934,6 @@ input CreatePlantInput {
 
   """Death info"""
   death: PlantDeathInput
-
-  """Watering IDs"""
-  watering: [String!]
 }
 
 input PlantDeathInput {
@@ -962,9 +962,6 @@ input UpdatePlantInput {
 
   """Death info"""
   death: PlantDeathInput
-
-  """Watering IDs"""
-  watering: [String!]
   _id: String!
 }
 
@@ -1010,6 +1007,12 @@ input CreateCropInput {
   """Gallery"""
   gallery: [String!]
 
+  """Watering IDs"""
+  watering: [String!]
+
+  """Comments"""
+  comments: String
+
   """CropContainer ID"""
   cropContainer: String!
 }
@@ -1026,6 +1029,12 @@ input UpdateCropInput {
 
   """Gallery"""
   gallery: [String!]
+
+  """Watering IDs"""
+  watering: [String!]
+
+  """Comments"""
+  comments: String
 
   """CropContainer ID"""
   cropContainer: String

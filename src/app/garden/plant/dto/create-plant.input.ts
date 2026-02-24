@@ -30,7 +30,4 @@ export class CreatePlantInput {
 
   @Field(() => PlantDeathInput, { description: 'Death info', nullable: true })
   death?: PlantDeathInput
-
-  @Field(() => [String], { description: 'Watering IDs', nullable: true })
-  watering?: string[]
 }
