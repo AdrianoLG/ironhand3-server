@@ -378,13 +378,13 @@ type Crop {
   startDate: DateTime!
 
   """End date"""
-  endDate: DateTime!
+  endDate: DateTime
 
   """Plants"""
   plants: [Plant!]!
 
   """Gallery"""
-  gallery: [String!]!
+  gallery: [String!]
 
   """Watering history"""
   watering: [Watering!]
@@ -999,7 +999,7 @@ input CreateCropInput {
   startDate: DateTime!
 
   """End date"""
-  endDate: DateTime!
+  endDate: DateTime
 
   """Plant IDs"""
   plants: [String!]

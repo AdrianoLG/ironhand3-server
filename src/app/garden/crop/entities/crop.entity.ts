@@ -17,9 +17,9 @@ export class Crop {
   @Prop({ required: true })
   startDate: Date
 
-  @Field(() => Date, { description: 'End date' })
+  @Field(() => Date, { description: 'End date', nullable: true })
   @Prop()
-  endDate: Date
+  endDate?: Date
 
   @Field(() => [Plant], { description: 'Plants' })
   @Prop({
@@ -28,9 +28,9 @@ export class Crop {
   })
   plants: (Plant | MongoSchema.Types.ObjectId)[]
 
-  @Field(() => [String], { description: 'Gallery' })
+  @Field(() => [String], { description: 'Gallery', nullable: true })
   @Prop({ type: [String], default: [] })
-  gallery: string[]
+  gallery?: string[]
 
   @Field(() => [Watering], { description: 'Watering history', nullable: true })
   @Prop({

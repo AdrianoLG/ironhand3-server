@@ -5,8 +5,8 @@ export class CreateCropInput {
   @Field(() => Date, { description: 'Start date' })
   startDate: Date
 
-  @Field(() => Date, { description: 'End date' })
-  endDate: Date
+  @Field(() => Date, { description: 'End date', nullable: true })
+  endDate?: Date
 
   @Field(() => [String], { description: 'Plant IDs', nullable: true })
   plants?: string[]
