@@ -15,7 +15,7 @@ export class CreateCropInput {
   gallery?: string[]
 
   @Field(() => [String], { description: 'Watering IDs', nullable: true })
-  watering?: string[]
+  waterings?: string[]
 
   @Field(() => String, { description: 'Comments', nullable: true })
   comments?: string

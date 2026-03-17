@@ -37,7 +37,7 @@ export class Crop {
     type: [{ type: MongoSchema.Types.ObjectId, ref: 'Watering' }],
     default: []
   })
-  watering?: (Watering | MongoSchema.Types.ObjectId)[]
+  waterings?: (Watering | MongoSchema.Types.ObjectId)[]
 
   @Field(() => String, { description: 'Comments', nullable: true })
   @Prop()

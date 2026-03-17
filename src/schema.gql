@@ -387,7 +387,7 @@ type Crop {
   gallery: [String!]
 
   """Watering history"""
-  watering: [Watering!]
+  waterings: [Watering!]
 
   """Comments"""
   comments: String
@@ -1008,7 +1008,7 @@ input CreateCropInput {
   gallery: [String!]
 
   """Watering IDs"""
-  watering: [String!]
+  waterings: [String!]
 
   """Comments"""
   comments: String
@@ -1031,7 +1031,7 @@ input UpdateCropInput {
   gallery: [String!]
 
   """Watering IDs"""
-  watering: [String!]
+  waterings: [String!]
 
   """Comments"""
   comments: String

@@ -26,7 +26,7 @@ export class CropService {
       .populate('plants')
       .populate('cropContainer')
       .populate({
-        path: 'watering',
+        path: 'waterings',
         populate: { path: 'fertilizers.fertilizer' }
       })
       .exec()
@@ -38,7 +38,7 @@ export class CropService {
       .populate('plants')
       .populate('cropContainer')
       .populate({
-        path: 'watering',
+        path: 'waterings',
         populate: { path: 'fertilizers.fertilizer' }
       })
       .exec()
@@ -55,7 +55,7 @@ export class CropService {
       .populate('plants')
       .populate('cropContainer')
       .populate({
-        path: 'watering',
+        path: 'waterings',
         populate: { path: 'fertilizers.fertilizer' }
       })
       .exec()
