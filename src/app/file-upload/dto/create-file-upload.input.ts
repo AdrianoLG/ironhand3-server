@@ -12,4 +12,8 @@ export class CreateFileUploadInput {
   @IsOptional()
   @IsString()
   caption: string
+
+  @IsOptional()
+  @IsString()
+  createThumbnail: string
 }
