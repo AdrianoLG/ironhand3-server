@@ -1,3 +1,4 @@
+/// <reference types="jest" />
 import { Schema as MongooseSchema, Types } from 'mongoose'
 
 import { Test, TestingModule } from '@nestjs/testing'

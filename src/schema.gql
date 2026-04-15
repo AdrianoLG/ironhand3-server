@@ -148,115 +148,20 @@ type CompletedExercise {
   ppm_min: Int
 }
 
-type Header {
+type CropContainer {
   _id: String!
 
-  """Title of nav item"""
-  title: String!
-
-  """URL of nav item"""
-  url: String!
-}
-
-type ShortcutCategory {
-  _id: String!
-
-  """Title of the category"""
-  title: String!
-
-  """List of shortcuts ids"""
-  shortcuts: [Shortcut!]!
-}
-
-type Shortcut {
-  _id: String!
-
-  """Shortcut title"""
-  title: String!
-
-  """Shortcut subtitle"""
-  subtitle: String
-
-  """Shortcut image"""
-  image: String!
-
-  """Shortcut category"""
-  category: ShortcutCategory!
-
-  """Shortcut action"""
-  action: String!
-}
-
-"""Response type"""
-type ResponseType {
-  """Response message"""
-  message: String!
-
-  """Count of completed operations"""
-  count: Int!
-}
-
-type User {
-  _id: String!
-
-  """Email of the user"""
-  email: String!
-
-  """Password of the user"""
-  password: String!
-
-  """Name of the user"""
-  name: String
-
-  """City of the user"""
-  city: String
-}
-
-type Instrument {
-  _id: String!
-
-  """Instrument name"""
+  """Crop container name"""
   name: String!
 
-  """Slug for the instrument"""
-  slug: String!
-
-  """Image for the instrument"""
+  """Image for the crop container"""
   img: String!
-}
 
-type Sheet {
-  _id: String!
+  """Capacity"""
+  capacity: Int!
 
-  """Sheet title"""
-  title: String!
-
-  """Artist name"""
-  artist: String!
-
-  """Possible instruments used"""
-  possibleInstruments: [Instrument!]!
-}
-
-type RehearsalSheet {
-  """Sheet"""
-  sheet: Sheet!
-
-  """Duration in minutes"""
-  duration: Int!
-}
-
-type Rehearsal {
-  _id: String!
-
-  """Instrument"""
-  instrument: Instrument!
-
-  """Completed at"""
-  completedAt: DateTime!
-
-  """Sheets"""
-  sheets: [RehearsalSheet!]!
+  """Automatic mode"""
+  auto: Boolean!
 }
 
 type Specie {
@@ -321,22 +226,6 @@ type Plant {
   death: PlantDeath
 }
 
-type CropContainer {
-  _id: String!
-
-  """Crop container name"""
-  name: String!
-
-  """Image for the crop container"""
-  img: String!
-
-  """Capacity"""
-  capacity: Int!
-
-  """Automatic mode"""
-  auto: Boolean!
-}
-
 type Fertilizer {
   _id: String!
 
@@ -396,6 +285,213 @@ type Crop {
   cropContainer: CropContainer!
 }
 
+type Header {
+  _id: String!
+
+  """Title of nav item"""
+  title: String!
+
+  """URL of nav item"""
+  url: String!
+}
+
+type Food {
+  _id: String!
+
+  """Food name"""
+  name: String!
+
+  """Time of day"""
+  timeOfDay: FoodTimeOfDay!
+
+  """Kcal"""
+  kcal: Float
+
+  """Fats"""
+  fats: Float
+
+  """Carbs"""
+  carbs: Float
+
+  """Proteins"""
+  proteins: Float
+
+  """Quantity"""
+  qty: Float
+
+  """Unit"""
+  unit: String
+
+  """Created date"""
+  created: DateTime!
+}
+
+enum FoodTimeOfDay {
+  BREAKFAST
+  LUNCH
+  SNACK
+  DINNER
+}
+
+type Ingredient {
+  _id: String!
+
+  """Ingredient name"""
+  name: String!
+
+  """Ingredient image"""
+  image: String!
+
+  """Quantity"""
+  qty: Float
+
+  """Unit"""
+  unit: String
+}
+
+type RecipeIngredient {
+  """Ingredient name"""
+  name: String!
+
+  """Ingredient image"""
+  image: String!
+
+  """Quantity"""
+  qty: Float
+
+  """Unit"""
+  unit: String
+}
+
+type Recipe {
+  _id: String!
+
+  """Recipe name"""
+  name: String!
+
+  """Ingredients"""
+  ingredients: [RecipeIngredient!]!
+
+  """Preparation steps"""
+  steps: [String!]!
+
+  """Gallery images"""
+  gallery: [String!]!
+
+  """Machine"""
+  machine: RecipeMachine
+}
+
+enum RecipeMachine {
+  MAMBO
+  TAURUS
+  OVEN
+  MICROWAVE
+  MIXER
+  GRINDER
+}
+
+type Instrument {
+  _id: String!
+
+  """Instrument name"""
+  name: String!
+
+  """Slug for the instrument"""
+  slug: String!
+
+  """Image for the instrument"""
+  img: String!
+}
+
+type Sheet {
+  _id: String!
+
+  """Sheet title"""
+  title: String!
+
+  """Artist name"""
+  artist: String!
+
+  """Possible instruments used"""
+  possibleInstruments: [Instrument!]!
+}
+
+type RehearsalSheet {
+  """Sheet"""
+  sheet: Sheet!
+
+  """Duration in minutes"""
+  duration: Int!
+}
+
+type Rehearsal {
+  _id: String!
+
+  """Instrument"""
+  instrument: Instrument!
+
+  """Completed at"""
+  completedAt: DateTime!
+
+  """Sheets"""
+  sheets: [RehearsalSheet!]!
+}
+
+type ShortcutCategory {
+  _id: String!
+
+  """Title of the category"""
+  title: String!
+
+  """List of shortcuts ids"""
+  shortcuts: [Shortcut!]!
+}
+
+type Shortcut {
+  _id: String!
+
+  """Shortcut title"""
+  title: String!
+
+  """Shortcut subtitle"""
+  subtitle: String
+
+  """Shortcut image"""
+  image: String!
+
+  """Shortcut category"""
+  category: ShortcutCategory!
+
+  """Shortcut action"""
+  action: String!
+}
+
+"""Response type"""
+type ResponseType {
+  """Response message"""
+  message: String!
+
+  """Count of completed operations"""
+  count: Int!
+}
+
+type User {
+  _id: String!
+
+  """Email of the user"""
+  email: String!
+
+  """Password of the user"""
+  password: String!
+
+  """Name of the user"""
+  name: String
+
+  """City of the user"""
+  city: String
+}
+
 type Query {
   users: [User!]!
   user(id: String!): User!
@@ -437,6 +533,12 @@ type Query {
   watering(id: String!): Watering!
   fertilizers: [Fertilizer!]!
   fertilizer(id: String!): Fertilizer!
+  ingredients: [Ingredient!]!
+  ingredient(id: String!): Ingredient!
+  recipes: [Recipe!]!
+  recipe(id: String!): Recipe!
+  foods: [Food!]!
+  food(id: String!): Food!
 }
 
 type Mutation {
@@ -500,6 +602,15 @@ type Mutation {
   createFertilizer(createFertilizerInput: CreateFertilizerInput!): Fertilizer!
   updateFertilizer(updateFertilizerInput: UpdateFertilizerInput!): Fertilizer!
   removeFertilizer(id: String!): Fertilizer!
+  createIngredient(createIngredientInput: CreateIngredientInput!): Ingredient!
+  updateIngredient(updateIngredientInput: UpdateIngredientInput!): Ingredient!
+  removeIngredient(id: String!): Ingredient!
+  createRecipe(createRecipeInput: CreateRecipeInput!): Recipe!
+  updateRecipe(updateRecipeInput: UpdateRecipeInput!): Recipe!
+  removeRecipe(id: String!): Recipe!
+  createFood(createFoodInput: CreateFoodInput!): Food!
+  updateFood(updateFoodInput: UpdateFoodInput!): Food!
+  removeFood(id: String!): Food!
 }
 
 input CreateUserInput {
@@ -1121,5 +1232,142 @@ input UpdateFertilizerInput {
 
   """Image"""
   img: String
+  _id: String!
+}
+
+input CreateIngredientInput {
+  """Ingredient name"""
+  name: String!
+
+  """Ingredient image"""
+  image: String!
+
+  """Quantity"""
+  qty: Float
+
+  """Unit"""
+  unit: String
+}
+
+input UpdateIngredientInput {
+  """Ingredient name"""
+  name: String
+
+  """Ingredient image"""
+  image: String
+
+  """Quantity"""
+  qty: Float
+
+  """Unit"""
+  unit: String
+  _id: String!
+}
+
+input CreateRecipeInput {
+  """Recipe name"""
+  name: String!
+
+  """Ingredients"""
+  ingredients: [RecipeIngredientInput!]!
+
+  """Preparation steps"""
+  steps: [String!]!
+
+  """Gallery images"""
+  gallery: [String!]!
+
+  """Machine"""
+  machine: RecipeMachine
+}
+
+input RecipeIngredientInput {
+  """Ingredient name"""
+  name: String!
+
+  """Ingredient image"""
+  image: String!
+
+  """Quantity"""
+  qty: Float
+
+  """Unit"""
+  unit: String
+}
+
+input UpdateRecipeInput {
+  """Recipe name"""
+  name: String
+
+  """Ingredients"""
+  ingredients: [RecipeIngredientInput!]
+
+  """Preparation steps"""
+  steps: [String!]
+
+  """Gallery images"""
+  gallery: [String!]
+
+  """Machine"""
+  machine: RecipeMachine
+  _id: String!
+}
+
+input CreateFoodInput {
+  """Food name"""
+  name: String!
+
+  """Time of day"""
+  timeOfDay: FoodTimeOfDay!
+
+  """Kcal"""
+  kcal: Float
+
+  """Fats"""
+  fats: Float
+
+  """Carbs"""
+  carbs: Float
+
+  """Proteins"""
+  proteins: Float
+
+  """Quantity"""
+  qty: Float
+
+  """Unit"""
+  unit: String
+
+  """Created date"""
+  created: DateTime!
+}
+
+input UpdateFoodInput {
+  """Food name"""
+  name: String
+
+  """Time of day"""
+  timeOfDay: FoodTimeOfDay
+
+  """Kcal"""
+  kcal: Float
+
+  """Fats"""
+  fats: Float
+
+  """Carbs"""
+  carbs: Float
+
+  """Proteins"""
+  proteins: Float
+
+  """Quantity"""
+  qty: Float
+
+  """Unit"""
+  unit: String
+
+  """Created date"""
+  created: DateTime
   _id: String!
 }

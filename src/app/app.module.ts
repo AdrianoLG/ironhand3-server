@@ -15,19 +15,22 @@ import { RoomsModule } from './cleaning/rooms/rooms.module'
 import { CompletedExerciseModule } from './exercise/completed-exercise/completed-exercise.module'
 import { ExerciseModule } from './exercise/exercise/exercise.module'
 import { FileUploadModule } from './file-upload/file-upload.module'
+import { CropContainerModule } from './garden/crop-container/crop-container.module'
+import { CropModule } from './garden/crop/crop.module'
+import { FertilizerModule } from './garden/fertilizer/fertilizer.module'
+import { PlantModule } from './garden/plant/plant.module'
+import { SpecieModule } from './garden/specie/specie.module'
+import { WateringModule } from './garden/watering/watering.module'
 import { HeaderModule } from './navigation/header/header.module'
+import { FoodModule } from './nutrition/food/food.module'
+import { IngredientModule } from './nutrition/ingredient/ingredient.module'
+import { RecipeModule } from './nutrition/recipe/recipe.module'
+import { InstrumentModule } from './rehearsal/instrument/instrument.module'
+import { RehearsalModule } from './rehearsal/rehearsal/rehearsal.module'
+import { SheetModule } from './rehearsal/sheet/sheet.module'
 import { ShortcutCategoryModule } from './settings/shortcut-category/shortcut-category.module'
 import { ShortcutsModule } from './settings/shortcut/shortcut.module'
 import { UserModule } from './user/user.module'
-import { RehearsalModule } from './rehearsal/rehearsal/rehearsal.module';
-import { InstrumentModule } from './rehearsal/instrument/instrument.module';
-import { SheetModule } from './rehearsal/sheet/sheet.module';
-import { PlantModule } from './garden/plant/plant.module';
-import { SpecieModule } from './garden/specie/specie.module';
-import { CropModule } from './garden/crop/crop.module';
-import { CropContainerModule } from './garden/crop-container/crop-container.module';
-import { WateringModule } from './garden/watering/watering.module';
-import { FertilizerModule } from './garden/fertilizer/fertilizer.module';
 
 @Module({
   imports: [
@@ -72,7 +75,10 @@ import { FertilizerModule } from './garden/fertilizer/fertilizer.module';
     CropModule,
     CropContainerModule,
     WateringModule,
-    FertilizerModule
+    FertilizerModule,
+    IngredientModule,
+    RecipeModule,
+    FoodModule
   ],
   controllers: [],
   providers: []

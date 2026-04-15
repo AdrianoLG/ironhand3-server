@@ -1,3 +1,4 @@
+/// <reference types="jest" />
 import { Test, TestingModule } from '@nestjs/testing'
 
 import { PlantResolver } from './plant.resolver'

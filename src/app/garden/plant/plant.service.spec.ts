@@ -1,3 +1,4 @@
+/// <reference types="jest" />
 import { getModelToken } from '@nestjs/mongoose'
 import { Test, TestingModule } from '@nestjs/testing'
 

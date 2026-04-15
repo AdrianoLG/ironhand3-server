@@ -1,3 +1,4 @@
+/// <reference types="jest" />
 // import * as request from 'supertest'
 
 // import { INestApplication } from '@nestjs/common'

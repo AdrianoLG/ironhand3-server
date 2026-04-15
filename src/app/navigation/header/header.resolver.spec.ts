@@ -1,3 +1,4 @@
+/// <reference types="jest" />
 import { Test, TestingModule } from '@nestjs/testing'
 
 import { HeaderResolver } from './header.resolver'
