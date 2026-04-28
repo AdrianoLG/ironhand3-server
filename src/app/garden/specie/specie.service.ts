@@ -1,8 +1,13 @@
 import { Model, Schema as MongooseSchema } from 'mongoose'
 
-import { Injectable } from '@nestjs/common'
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException
+} from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 
+import { Plant, PlantDocument } from '../plant/entities/plant.entity'
 import { CreateSpecieInput } from './dto/create-specie.input'
 import { UpdateSpecieInput } from './dto/update-specie.input'
 import { Specie, SpecieDocument } from './entities/specie.entity'
@@ -11,7 +16,9 @@ import { Specie, SpecieDocument } from './entities/specie.entity'
 export class SpecieService {
   constructor(
     @InjectModel(Specie.name)
-    private specieModel: Model<SpecieDocument>
+    private specieModel: Model<SpecieDocument>,
+    @InjectModel(Plant.name)
+    private plantModel: Model<PlantDocument>
   ) {}
 
   async createSpecie(createSpecieInput: CreateSpecieInput) {
@@ -39,6 +46,15 @@ export class SpecieService {
   }
 
   async removeSpecie(id: MongooseSchema.Types.ObjectId) {
-    return this.specieModel.findByIdAndDelete(id).exec()
+    const plantCount = await this.plantModel
+      .countDocuments({ specie: id })
+      .exec()
+    if (plantCount > 0)
+      throw new BadRequestException(
+        `Cannot delete specie: it has ${plantCount} associated plant(s)`
+      )
+    const deleted = await this.specieModel.findByIdAndDelete(id).exec()
+    if (!deleted) throw new NotFoundException(`Specie with id ${id} not found`)
+    return deleted
   }
 }
