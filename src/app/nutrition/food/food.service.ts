@@ -20,7 +20,7 @@ export class FoodService {
   }
 
   async findAllFoods() {
-    return this.foodModel.find().sort({ created: -1 }).exec()
+    return this.foodModel.find().sort({ name: 1 }).exec()
   }
 
   async getFoodById(id: MongooseSchema.Types.ObjectId) {

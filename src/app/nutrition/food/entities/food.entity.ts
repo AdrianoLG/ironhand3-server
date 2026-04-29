@@ -24,10 +24,6 @@ export class Food {
   @Prop({ required: true })
   name: string
 
-  @Field(() => FoodTimeOfDay, { description: 'Time of day' })
-  @Prop({ required: true, enum: Object.values(FoodTimeOfDay) })
-  timeOfDay: FoodTimeOfDay
-
   @Field(() => Number, { description: 'Kcal', nullable: true })
   @Prop()
   kcal?: number
@@ -43,18 +39,6 @@ export class Food {
   @Field(() => Number, { description: 'Proteins', nullable: true })
   @Prop()
   proteins?: number
-
-  @Field(() => Number, { description: 'Quantity', nullable: true })
-  @Prop()
-  qty?: number
-
-  @Field(() => String, { description: 'Unit', nullable: true })
-  @Prop()
-  unit?: string
-
-  @Field(() => Date, { description: 'Created date' })
-  @Prop({ required: true })
-  created: Date
 }
 
 export type FoodDocument = Food & Document

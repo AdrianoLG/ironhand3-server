@@ -301,9 +301,6 @@ type Food {
   """Food name"""
   name: String!
 
-  """Time of day"""
-  timeOfDay: FoodTimeOfDay!
-
   """Kcal"""
   kcal: Float
 
@@ -315,6 +312,16 @@ type Food {
 
   """Proteins"""
   proteins: Float
+}
+
+type CompletedMeal {
+  _id: String!
+
+  """Food"""
+  food: Food!
+
+  """Time of day"""
+  timeOfDay: CompletedMealTimeOfDay!
 
   """Quantity"""
   qty: Float
@@ -326,7 +333,7 @@ type Food {
   created: DateTime!
 }
 
-enum FoodTimeOfDay {
+enum CompletedMealTimeOfDay {
   BREAKFAST
   LUNCH
   SNACK
@@ -533,6 +540,8 @@ type Query {
   watering(id: String!): Watering!
   fertilizers: [Fertilizer!]!
   fertilizer(id: String!): Fertilizer!
+  completedMeals: [CompletedMeal!]!
+  completedMeal(id: String!): CompletedMeal!
   ingredients: [Ingredient!]!
   ingredient(id: String!): Ingredient!
   recipes: [Recipe!]!
@@ -602,6 +611,9 @@ type Mutation {
   createFertilizer(createFertilizerInput: CreateFertilizerInput!): Fertilizer!
   updateFertilizer(updateFertilizerInput: UpdateFertilizerInput!): Fertilizer!
   removeFertilizer(id: String!): Fertilizer!
+  createCompletedMeal(createCompletedMealInput: CreateCompletedMealInput!): CompletedMeal!
+  updateCompletedMeal(updateCompletedMealInput: UpdateCompletedMealInput!): CompletedMeal!
+  removeCompletedMeal(id: String!): CompletedMeal!
   createIngredient(createIngredientInput: CreateIngredientInput!): Ingredient!
   updateIngredient(updateIngredientInput: UpdateIngredientInput!): Ingredient!
   removeIngredient(id: String!): Ingredient!
@@ -1235,6 +1247,41 @@ input UpdateFertilizerInput {
   _id: String!
 }
 
+input CreateCompletedMealInput {
+  """Food id"""
+  food: String!
+
+  """Time of day"""
+  timeOfDay: CompletedMealTimeOfDay!
+
+  """Quantity"""
+  qty: Float
+
+  """Unit"""
+  unit: String
+
+  """Created date"""
+  created: DateTime!
+}
+
+input UpdateCompletedMealInput {
+  """Food id"""
+  food: String
+
+  """Time of day"""
+  timeOfDay: CompletedMealTimeOfDay
+
+  """Quantity"""
+  qty: Float
+
+  """Unit"""
+  unit: String
+
+  """Created date"""
+  created: DateTime
+  _id: String!
+}
+
 input CreateIngredientInput {
   """Ingredient name"""
   name: String!
@@ -1317,9 +1364,6 @@ input CreateFoodInput {
   """Food name"""
   name: String!
 
-  """Time of day"""
-  timeOfDay: FoodTimeOfDay!
-
   """Kcal"""
   kcal: Float
 
@@ -1331,24 +1375,12 @@ input CreateFoodInput {
 
   """Proteins"""
   proteins: Float
-
-  """Quantity"""
-  qty: Float
-
-  """Unit"""
-  unit: String
-
-  """Created date"""
-  created: DateTime!
 }
 
 input UpdateFoodInput {
   """Food name"""
   name: String
 
-  """Time of day"""
-  timeOfDay: FoodTimeOfDay
-
   """Kcal"""
   kcal: Float
 
@@ -1360,14 +1392,5 @@ input UpdateFoodInput {
 
   """Proteins"""
   proteins: Float
-
-  """Quantity"""
-  qty: Float
-
-  """Unit"""
-  unit: String
-
-  """Created date"""
-  created: DateTime
   _id: String!
 }

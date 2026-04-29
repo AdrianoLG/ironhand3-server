@@ -22,6 +22,7 @@ import { PlantModule } from './garden/plant/plant.module'
 import { SpecieModule } from './garden/specie/specie.module'
 import { WateringModule } from './garden/watering/watering.module'
 import { HeaderModule } from './navigation/header/header.module'
+import { CompletedMealModule } from './nutrition/completed-meal/completed-meal.module'
 import { FoodModule } from './nutrition/food/food.module'
 import { IngredientModule } from './nutrition/ingredient/ingredient.module'
 import { RecipeModule } from './nutrition/recipe/recipe.module'
@@ -76,6 +77,7 @@ import { UserModule } from './user/user.module'
     CropContainerModule,
     WateringModule,
     FertilizerModule,
+    CompletedMealModule,
     IngredientModule,
     RecipeModule,
     FoodModule
