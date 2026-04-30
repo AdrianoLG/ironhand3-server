@@ -7,6 +7,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { GraphQLModule } from '@nestjs/graphql'
 import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose'
 
+import { GoalModule } from './budget/goal/goal.module'
+import { SavingModule } from './budget/saving/saving.module'
+import { SubscriptionModule } from './budget/subscription/subscription.module'
+import { TransactionModule } from './budget/transaction/transaction.module'
 import { AuthorModule } from './catalog/author/author.module'
 import { BookModule } from './catalog/book/book.module'
 import { CleaningTasksModule } from './cleaning/cleaning-tasks/cleaning-tasks.module'
@@ -80,7 +84,11 @@ import { UserModule } from './user/user.module'
     CompletedMealModule,
     IngredientModule,
     RecipeModule,
-    FoodModule
+    FoodModule,
+    TransactionModule,
+    SubscriptionModule,
+    SavingModule,
+    GoalModule
   ],
   controllers: [],
   providers: []

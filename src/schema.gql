@@ -2,6 +2,109 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Goal {
+  _id: String!
+
+  """Goal title"""
+  title: String!
+
+  """Target amount"""
+  targetAmount: Float!
+}
+
+type Saving {
+  _id: String!
+
+  """Saving name"""
+  name: String!
+
+  """Current balance"""
+  balance: Float!
+
+  """Saving goals"""
+  goals: [Goal!]!
+}
+
+type Subscription {
+  _id: String!
+
+  """Subscription frequency"""
+  frequency: SubscriptionFrequency!
+
+  """Whether the subscription is a loan"""
+  isLoan: Boolean!
+
+  """Day of month"""
+  dayOfMonth: Int!
+
+  """Start date"""
+  startDate: DateTime!
+
+  """End date"""
+  endDate: DateTime
+
+  """Subscription amount"""
+  amount: Float!
+
+  """Whether the subscription is active"""
+  isActive: Boolean!
+}
+
+enum SubscriptionFrequency {
+  ANNUALLY
+  MONTHLY
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Transaction {
+  _id: String!
+
+  """Transaction title"""
+  title: String!
+
+  """Transaction category"""
+  category: TransactionCategory!
+
+  """Transaction type"""
+  type: TransactionType!
+
+  """Expected amount"""
+  expectedAmount: Float!
+
+  """Real amount"""
+  realAmount: Float
+
+  """Whether the transaction is paid"""
+  isPaid: Boolean!
+
+  """Subscription id"""
+  subscription: Subscription
+}
+
+enum TransactionCategory {
+  HOUSE
+  WORK
+  FOOD
+  VICE
+  SHOP
+  CAR
+  OTHER
+  HEALTH
+  MOTORCYCLE
+  TRAVEL
+  MUSIC
+  EDUCATION
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
 type Author {
   _id: String!
 
@@ -101,11 +204,6 @@ type CompletedCleaningTask {
   """Rooms cleaned"""
   rooms: [Room!]!
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 type Exercise {
   _id: String!
@@ -548,6 +646,14 @@ type Query {
   recipe(id: String!): Recipe!
   foods: [Food!]!
   food(id: String!): Food!
+  transactions: [Transaction!]!
+  transaction(id: String!): Transaction!
+  subscriptions: [Subscription!]!
+  subscription(id: String!): Subscription!
+  savings: [Saving!]!
+  saving(id: String!): Saving!
+  goals: [Goal!]!
+  goal(id: String!): Goal!
 }
 
 type Mutation {
@@ -623,6 +729,18 @@ type Mutation {
   createFood(createFoodInput: CreateFoodInput!): Food!
   updateFood(updateFoodInput: UpdateFoodInput!): Food!
   removeFood(id: String!): Food!
+  createTransaction(createTransactionInput: CreateTransactionInput!): Transaction!
+  updateTransaction(updateTransactionInput: UpdateTransactionInput!): Transaction!
+  removeTransaction(id: String!): Transaction!
+  createSubscription(createSubscriptionInput: CreateSubscriptionInput!): Subscription!
+  updateSubscription(updateSubscriptionInput: UpdateSubscriptionInput!): Subscription!
+  removeSubscription(id: String!): Subscription!
+  createSaving(createSavingInput: CreateSavingInput!): Saving!
+  updateSaving(updateSavingInput: UpdateSavingInput!): Saving!
+  removeSaving(id: String!): Saving!
+  createGoal(createGoalInput: CreateGoalInput!): Goal!
+  updateGoal(updateGoalInput: UpdateGoalInput!): Goal!
+  removeGoal(id: String!): Goal!
 }
 
 input CreateUserInput {
@@ -1392,5 +1510,139 @@ input UpdateFoodInput {
 
   """Proteins"""
   proteins: Float
+  _id: String!
+}
+
+input CreateTransactionInput {
+  """Transaction title"""
+  title: String!
+
+  """Transaction category"""
+  category: TransactionCategory!
+
+  """Transaction type"""
+  type: TransactionType!
+
+  """Expected amount"""
+  expectedAmount: Float!
+
+  """Real amount"""
+  realAmount: Float
+
+  """Whether the transaction is paid"""
+  isPaid: Boolean
+
+  """Subscription id"""
+  subscription: String
+}
+
+input UpdateTransactionInput {
+  """Transaction title"""
+  title: String
+
+  """Transaction category"""
+  category: TransactionCategory
+
+  """Transaction type"""
+  type: TransactionType
+
+  """Expected amount"""
+  expectedAmount: Float
+
+  """Real amount"""
+  realAmount: Float
+
+  """Whether the transaction is paid"""
+  isPaid: Boolean
+
+  """Subscription id"""
+  subscription: String
+  _id: String!
+}
+
+input CreateSubscriptionInput {
+  """Subscription frequency"""
+  frequency: SubscriptionFrequency!
+
+  """Whether the subscription is a loan"""
+  isLoan: Boolean!
+
+  """Day of month"""
+  dayOfMonth: Int!
+
+  """Start date"""
+  startDate: DateTime!
+
+  """End date"""
+  endDate: DateTime
+
+  """Subscription amount"""
+  amount: Float!
+
+  """Whether the subscription is active"""
+  isActive: Boolean!
+}
+
+input UpdateSubscriptionInput {
+  """Subscription frequency"""
+  frequency: SubscriptionFrequency
+
+  """Whether the subscription is a loan"""
+  isLoan: Boolean
+
+  """Day of month"""
+  dayOfMonth: Int
+
+  """Start date"""
+  startDate: DateTime
+
+  """End date"""
+  endDate: DateTime
+
+  """Subscription amount"""
+  amount: Float
+
+  """Whether the subscription is active"""
+  isActive: Boolean
+  _id: String!
+}
+
+input CreateSavingInput {
+  """Saving name"""
+  name: String!
+
+  """Current balance"""
+  balance: Float!
+
+  """Saving goals"""
+  goals: [String!]
+}
+
+input UpdateSavingInput {
+  """Saving name"""
+  name: String
+
+  """Current balance"""
+  balance: Float
+
+  """Saving goals"""
+  goals: [String!]
+  _id: String!
+}
+
+input CreateGoalInput {
+  """Goal title"""
+  title: String!
+
+  """Target amount"""
+  targetAmount: Float!
+}
+
+input UpdateGoalInput {
+  """Goal title"""
+  title: String
+
+  """Target amount"""
+  targetAmount: Float
   _id: String!
 }
