@@ -1,6 +1,12 @@
 import { Schema as MongoSchema } from 'mongoose'
 
-import { Field, Float, ObjectType, registerEnumType } from '@nestjs/graphql'
+import {
+  Field,
+  Float,
+  Int,
+  ObjectType,
+  registerEnumType
+} from '@nestjs/graphql'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 
 import { Subscription } from '../../subscription/entities/subscription.entity'
@@ -50,6 +56,14 @@ export class Transaction {
   @Field(() => TransactionType, { description: 'Transaction type' })
   @Prop({ required: true, enum: Object.values(TransactionType) })
   type: TransactionType
+
+  @Field(() => Int, { description: 'Month index from 0 to 11' })
+  @Prop({ required: true, min: 0, max: 11 })
+  month: number
+
+  @Field(() => Int, { description: 'Year for the transaction month' })
+  @Prop({ required: true })
+  year: number
 
   @Field(() => Float, { description: 'Expected amount' })
   @Prop({ required: true })

@@ -1,6 +1,7 @@
+import { Max, Min } from 'class-validator'
 import { Schema as MongoSchema } from 'mongoose'
 
-import { Field, Float, InputType } from '@nestjs/graphql'
+import { Field, Float, InputType, Int } from '@nestjs/graphql'
 
 import {
   TransactionCategory,
@@ -17,6 +18,14 @@ export class CreateTransactionInput {
 
   @Field(() => TransactionType, { description: 'Transaction type' })
   type: TransactionType
+
+  @Field(() => Int, { description: 'Month index from 0 to 11' })
+  @Min(0)
+  @Max(11)
+  month: number
+
+  @Field(() => Int, { description: 'Year for the transaction month' })
+  year: number
 
   @Field(() => Float, { description: 'Expected amount' })
   expectedAmount: number

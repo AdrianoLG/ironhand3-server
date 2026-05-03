@@ -1,16 +1,11 @@
-import { Schema as MongoSchema } from 'mongoose'
+import { Schema as MongoSchema } from 'mongoose';
 
-import {
-  Field,
-  Float,
-  Int,
-  ObjectType,
-  registerEnumType
-} from '@nestjs/graphql'
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import { Field, Float, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 export enum SubscriptionFrequency {
   ANNUALLY = 'annually',
+  BIMONTHLY = 'bimonthly',
   MONTHLY = 'monthly'
 }
 
