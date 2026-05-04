@@ -118,62 +118,161 @@ enum TransactionType {
   EXPENSE
 }
 
-type Author {
+type Genre {
   _id: String!
 
-  """Name of the author"""
-  first_name: String!
+  """Genre name"""
+  name: String!
 
-  """Last name of the author"""
-  last_name: String
-
-  """Date of birth"""
-  birth_date: String
-
-  """Date of death"""
-  death_date: String
-
-  """Nationality of the author"""
-  nationality: String
-
-  """Notes about the author"""
-  notes: String
-
-  """List of authors books"""
-  books: [Book!]!
+  """Genre slug"""
+  slug: String!
 }
 
-type GetAuthorsPaginatedResponse {
-  """List of authors"""
-  authorList: [Author!]!
+type Country {
+  _id: String!
 
-  """Total of authors"""
-  authorsCount: Int!
+  """Country name"""
+  name: String!
+
+  """Country slug"""
+  slug: String!
+
+  """Country flag"""
+  flag: String
+}
+
+type Person {
+  _id: String!
+
+  """Person name"""
+  name: String!
+
+  """Person last name"""
+  lastName: String
+
+  """Person image"""
+  img: String
+
+  """Person role"""
+  role: PersonRole!
+
+  """Birth country"""
+  birthCountry: Country
+}
+
+enum PersonRole {
+  DIRECTOR
+  ACTOR
+  WRITER
 }
 
 type Book {
   _id: String!
 
-  """Title of the book"""
+  """Book title"""
   title: String!
 
-  """Number of pages"""
-  pages: Int
+  """Book authors"""
+  author: [Person!]!
 
-  """Cover of the book"""
-  cover: String
+  """Book cover"""
+  cover: String!
 
-  """Notes about the book"""
-  notes: String
+  """Book format"""
+  format: BookFormat!
 
-  """Authors of the book"""
-  authors: [Author!]!
+  """Book pages"""
+  pages: Int!
+
+  """Book cover material"""
+  coverMaterial: CoverMaterial
+
+  """Book editorial"""
+  editorial: String
+
+  """Published year"""
+  publishedYear: Int
+
+  """Synopsis"""
+  synopsis: String
+
+  """Book genres"""
+  genres: [Genre!]
+
+  """Book tags"""
+  tags: [String!]
 }
 
-type GetBooksPaginatedResponse {
-  """List of books"""
-  bookList: [Book!]!
-  booksCount: Int!
+enum BookFormat {
+  PAPER
+  ELECTRONIC
+}
+
+enum CoverMaterial {
+  SOFT
+  HARD
+}
+
+type Movie {
+  _id: String!
+
+  """Movie title"""
+  title: String!
+
+  """Movie directors"""
+  director: [Person!]!
+
+  """Movie actors"""
+  actors: [Person!]
+
+  """Movie country"""
+  country: Country
+
+  """Movie cover"""
+  cover: String!
+
+  """Duration in minutes"""
+  duration: Int
+
+  """Release year"""
+  year: Int
+
+  """Movie genres"""
+  genres: [Genre!]
+
+  """Movie tags"""
+  tags: [String!]
+}
+
+type Serie {
+  _id: String!
+
+  """Serie title"""
+  title: String!
+
+  """Serie directors"""
+  director: [Person!]!
+
+  """Serie actors"""
+  actors: [Person!]
+
+  """Serie country"""
+  country: Country
+
+  """Serie cover"""
+  cover: String
+
+  """Episode duration in minutes"""
+  episodeDuration: Int
+
+  """Release year"""
+  year: Int
+
+  """Serie genres"""
+  genres: [Genre!]
+
+  """Serie tags"""
+  tags: [String!]
 }
 
 type Room {
@@ -613,10 +712,18 @@ type User {
 type Query {
   users: [User!]!
   user(id: String!): User!
-  books(limit: Int = 10, skip: Int = 0): GetBooksPaginatedResponse!
+  books: [Book!]!
   book(id: String!): Book!
-  authors(limit: Int = 10, skip: Int = 0): GetAuthorsPaginatedResponse!
-  author(id: String!): Author!
+  countries: [Country!]!
+  country(id: String!): Country!
+  genres: [Genre!]!
+  genre(id: String!): Genre!
+  people: [Person!]!
+  person(id: String!): Person!
+  movies: [Movie!]!
+  movie(id: String!): Movie!
+  series: [Serie!]!
+  serie(id: String!): Serie!
   shortcuts: [Shortcut!]!
   shortcut(id: String!): Shortcut!
   shortcutCategories: [ShortcutCategory!]!
@@ -676,9 +783,21 @@ type Mutation {
   createBook(createBookInput: CreateBookInput!): Book!
   updateBook(updateBookInput: UpdateBookInput!): Book!
   removeBook(id: String!): Book!
-  createAuthor(createAuthorInput: CreateAuthorInput!): Author!
-  updateAuthor(updateAuthorInput: UpdateAuthorInput!): Author!
-  removeAuthor(id: String!): Author!
+  createCountry(createCountryInput: CreateCountryInput!): Country!
+  updateCountry(updateCountryInput: UpdateCountryInput!): Country!
+  removeCountry(id: String!): Country!
+  createGenre(createGenreInput: CreateGenreInput!): Genre!
+  updateGenre(updateGenreInput: UpdateGenreInput!): Genre!
+  removeGenre(id: String!): Genre!
+  createPerson(createPersonInput: CreatePersonInput!): Person!
+  updatePerson(updatePersonInput: UpdatePersonInput!): Person!
+  removePerson(id: String!): Person!
+  createMovie(createMovieInput: CreateMovieInput!): Movie!
+  updateMovie(updateMovieInput: UpdateMovieInput!): Movie!
+  removeMovie(id: String!): Movie!
+  createSerie(createSerieInput: CreateSerieInput!): Serie!
+  updateSerie(updateSerieInput: UpdateSerieInput!): Serie!
+  removeSerie(id: String!): Serie!
   createShortcut(createShortcutInput: CreateShortcutInput!): Shortcut!
   updateShortcut(updateShortcutInput: UpdateShortcutInput!): Shortcut!
   removeShortcut(id: String!): ResponseType!
@@ -786,90 +905,266 @@ input UpdateUserInput {
 }
 
 input CreateBookInput {
-  """Title of the book"""
+  """Book title"""
   title: String!
 
-  """Number of pages"""
-  pages: Int
+  """Book authors ids"""
+  author: [String!]!
 
-  """Cover of the book"""
-  cover: String
+  """Book cover"""
+  cover: String!
 
-  """ISBN of the book"""
-  isbn: String
+  """Book format"""
+  format: BookFormat!
 
-  """Notes about the book"""
-  notes: String
+  """Book pages"""
+  pages: Int!
 
-  """List of authors ids"""
-  authors: [String!]! = []
+  """Book cover material"""
+  coverMaterial: CoverMaterial
+
+  """Book editorial"""
+  editorial: String
+
+  """Published year"""
+  publishedYear: Int
+
+  """Synopsis"""
+  synopsis: String
+
+  """Genre ids"""
+  genres: [String!]
+
+  """Book tags"""
+  tags: [String!]
 }
 
 input UpdateBookInput {
-  """Title of the book"""
+  """Book title"""
   title: String
 
-  """Number of pages"""
-  pages: Int
+  """Book authors ids"""
+  author: [String!]
 
-  """Cover of the book"""
+  """Book cover"""
   cover: String
 
-  """ISBN of the book"""
-  isbn: String
+  """Book format"""
+  format: BookFormat
 
-  """Notes about the book"""
-  notes: String
+  """Book pages"""
+  pages: Int
 
-  """List of authors ids"""
-  authors: [String!] = []
+  """Book cover material"""
+  coverMaterial: CoverMaterial
+
+  """Book editorial"""
+  editorial: String
+
+  """Published year"""
+  publishedYear: Int
+
+  """Synopsis"""
+  synopsis: String
+
+  """Genre ids"""
+  genres: [String!]
+
+  """Book tags"""
+  tags: [String!]
   _id: String!
 }
 
-input CreateAuthorInput {
-  """Name of the author"""
-  first_name: String!
+input CreateCountryInput {
+  """Country name"""
+  name: String!
 
-  """Last name of the author"""
-  last_name: String
+  """Country slug"""
+  slug: String!
 
-  """Date of birth"""
-  birth_date: String
-
-  """Date of death"""
-  death_date: String
-
-  """Nationality of the author"""
-  nationality: String
-
-  """Notes about the author"""
-  notes: String
-
-  """List of books ids"""
-  books: [String!]! = []
+  """Country flag"""
+  flag: String
 }
 
-input UpdateAuthorInput {
-  """Name of the author"""
-  first_name: String
+input UpdateCountryInput {
+  """Country name"""
+  name: String
 
-  """Last name of the author"""
-  last_name: String
+  """Country slug"""
+  slug: String
 
-  """Date of birth"""
-  birth_date: String
+  """Country flag"""
+  flag: String
+  _id: String!
+}
 
-  """Date of death"""
-  death_date: String
+input CreateGenreInput {
+  """Genre name"""
+  name: String!
 
-  """Nationality of the author"""
-  nationality: String
+  """Genre slug"""
+  slug: String!
+}
 
-  """Notes about the author"""
-  notes: String
+input UpdateGenreInput {
+  """Genre name"""
+  name: String
 
-  """List of books ids"""
-  books: [String!] = []
+  """Genre slug"""
+  slug: String
+  _id: String!
+}
+
+input CreatePersonInput {
+  """Person name"""
+  name: String!
+
+  """Person last name"""
+  lastName: String
+
+  """Person image"""
+  img: String
+
+  """Person role"""
+  role: PersonRole!
+
+  """Birth country id"""
+  birthCountry: String
+}
+
+input UpdatePersonInput {
+  """Person name"""
+  name: String
+
+  """Person last name"""
+  lastName: String
+
+  """Person image"""
+  img: String
+
+  """Person role"""
+  role: PersonRole
+
+  """Birth country id"""
+  birthCountry: String
+  _id: String!
+}
+
+input CreateMovieInput {
+  """Movie title"""
+  title: String!
+
+  """Movie directors ids"""
+  director: [String!]!
+
+  """Movie actors ids"""
+  actors: [String!]
+
+  """Country id"""
+  country: String
+
+  """Movie cover"""
+  cover: String!
+
+  """Duration in minutes"""
+  duration: Int
+
+  """Release year"""
+  year: Int
+
+  """Genre ids"""
+  genres: [String!]
+
+  """Movie tags"""
+  tags: [String!]
+}
+
+input UpdateMovieInput {
+  """Movie title"""
+  title: String
+
+  """Movie directors ids"""
+  director: [String!]
+
+  """Movie actors ids"""
+  actors: [String!]
+
+  """Country id"""
+  country: String
+
+  """Movie cover"""
+  cover: String
+
+  """Duration in minutes"""
+  duration: Int
+
+  """Release year"""
+  year: Int
+
+  """Genre ids"""
+  genres: [String!]
+
+  """Movie tags"""
+  tags: [String!]
+  _id: String!
+}
+
+input CreateSerieInput {
+  """Serie title"""
+  title: String!
+
+  """Serie directors ids"""
+  director: [String!]!
+
+  """Serie actors ids"""
+  actors: [String!]
+
+  """Country id"""
+  country: String
+
+  """Serie cover"""
+  cover: String
+
+  """Episode duration in minutes"""
+  episodeDuration: Int
+
+  """Release year"""
+  year: Int
+
+  """Genre ids"""
+  genres: [String!]
+
+  """Serie tags"""
+  tags: [String!]
+}
+
+input UpdateSerieInput {
+  """Serie title"""
+  title: String
+
+  """Serie directors ids"""
+  director: [String!]
+
+  """Serie actors ids"""
+  actors: [String!]
+
+  """Country id"""
+  country: String
+
+  """Serie cover"""
+  cover: String
+
+  """Episode duration in minutes"""
+  episodeDuration: Int
+
+  """Release year"""
+  year: Int
+
+  """Genre ids"""
+  genres: [String!]
+
+  """Serie tags"""
+  tags: [String!]
   _id: String!
 }
 

@@ -1,11 +1,11 @@
 import { Schema as MongooseSchema } from 'mongoose'
-import { GetPaginatedArgs } from 'src/app/common/dto/get-paginated.args'
 
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 
 import { BookService } from './book.service'
-import { CreateBookInput, UpdateBookInput } from './dto'
-import { Book, GetBooksPaginatedResponse } from './entities/book.entity'
+import { CreateBookInput } from './dto/create-book.input'
+import { UpdateBookInput } from './dto/update-book.input'
+import { Book } from './entities/book.entity'
 
 @Resolver(() => Book)
 export class BookResolver {
@@ -16,14 +16,13 @@ export class BookResolver {
     return this.bookService.createBook(createBookInput)
   }
 
-  @Query(() => GetBooksPaginatedResponse, { name: 'books' })
-  findAllBooks(@Args() args: GetPaginatedArgs) {
-    const { limit, skip } = args
-    return this.bookService.findAllBooks(limit, skip)
+  @Query(() => [Book], { name: 'books' })
+  findAll() {
+    return this.bookService.findAllBooks()
   }
 
   @Query(() => Book, { name: 'book' })
-  getBookById(
+  findOne(
     @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId
   ) {
     return this.bookService.getBookById(id)

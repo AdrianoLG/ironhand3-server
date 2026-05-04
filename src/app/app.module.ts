@@ -11,8 +11,12 @@ import { GoalModule } from './budget/goal/goal.module'
 import { SavingModule } from './budget/saving/saving.module'
 import { SubscriptionModule } from './budget/subscription/subscription.module'
 import { TransactionModule } from './budget/transaction/transaction.module'
-import { AuthorModule } from './catalog/author/author.module'
 import { BookModule } from './catalog/book/book.module'
+import { CountryModule } from './catalog/country/country.module'
+import { GenreModule } from './catalog/genre/genre.module'
+import { MovieModule } from './catalog/movie/movie.module'
+import { PersonModule } from './catalog/person/person.module'
+import { SerieModule } from './catalog/serie/serie.module'
 import { CleaningTasksModule } from './cleaning/cleaning-tasks/cleaning-tasks.module'
 import { CompletedCleaningTasksModule } from './cleaning/completed-cleaning-tasks/completed-cleaning-tasks.module'
 import { RoomsModule } from './cleaning/rooms/rooms.module'
@@ -62,7 +66,11 @@ import { UserModule } from './user/user.module'
     }),
     UserModule,
     BookModule,
-    AuthorModule,
+    CountryModule,
+    GenreModule,
+    PersonModule,
+    MovieModule,
+    SerieModule,
     ShortcutsModule,
     ShortcutCategoryModule,
     HeaderModule,

@@ -6,73 +6,79 @@ import { BookService } from './book.service'
 
 describe('BookResolver', () => {
   let resolver: BookResolver
-
   let service: BookService
+
+  const mockService = {
+    createBook: jest.fn(),
+    findAllBooks: jest.fn(),
+    getBookById: jest.fn(),
+    updateBook: jest.fn(),
+    removeBook: jest.fn()
+  }
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        BookResolver,
-        {
-          provide: BookService,
-          useValue: {
-            createBook: jest.fn(),
-            findAllBooks: jest.fn(),
-            getBookById: jest.fn(),
-            updateBook: jest.fn(),
-            removeBook: jest.fn()
-          }
-        }
-      ]
+      providers: [BookResolver, { provide: BookService, useValue: mockService }]
     }).compile()
 
     resolver = module.get<BookResolver>(BookResolver)
     service = module.get<BookService>(BookService)
+    jest.clearAllMocks()
   })
 
   it('should be defined', () => {
     expect(resolver).toBeDefined()
   })
 
-  it('findAllBooks should pass args to service', async () => {
-    const response = { bookList: [], booksCount: 0 } as any
-    ;(service.findAllBooks as jest.Mock).mockResolvedValue(response)
-    const result = await resolver.findAllBooks({ limit: 20, skip: 3 } as any)
-    expect(result).toEqual(response)
-    expect(service.findAllBooks).toHaveBeenCalledWith(20, 3)
-  })
-
-  it('getBookById should delegate', async () => {
-    const book = { _id: 'b1', title: 'X' } as any
-    ;(service.getBookById as jest.Mock).mockResolvedValue(book)
-    const result = await resolver.getBookById('b1' as any)
-    expect(result).toEqual(book)
-    expect(service.getBookById).toHaveBeenCalledWith('b1')
-  })
-
-  it('createBook should delegate', async () => {
-    const input = { title: 'New' } as any
-    const created = { _id: 'n1', ...input } as any
+  it('createBook should delegate to service', async () => {
+    const input = { title: 'Dune', pages: 500 } as any
+    const created = { _id: 'b1', ...input }
     ;(service.createBook as jest.Mock).mockResolvedValue(created)
+
     const result = await resolver.createBook(input)
-    expect(result).toEqual(created)
+
     expect(service.createBook).toHaveBeenCalledWith(input)
+    expect(result).toEqual(created)
   })
 
-  it('updateBook should delegate', async () => {
-    const update = { _id: 'u1', title: 'Upd' } as any
-    const updated = { _id: 'u1', title: 'Upd' } as any
+  it('findAll should return books from service', async () => {
+    const list = [{ _id: 'b1', title: 'Dune' }]
+    ;(service.findAllBooks as jest.Mock).mockResolvedValue(list)
+
+    const result = await resolver.findAll()
+
+    expect(service.findAllBooks).toHaveBeenCalled()
+    expect(result).toEqual(list)
+  })
+
+  it('findOne should fetch a book by id', async () => {
+    const book = { _id: 'b9', title: 'It' }
+    ;(service.getBookById as jest.Mock).mockResolvedValue(book)
+
+    const result = await resolver.findOne('b9' as any)
+
+    expect(service.getBookById).toHaveBeenCalledWith('b9')
+    expect(result).toEqual(book)
+  })
+
+  it('updateBook should use _id from input', async () => {
+    const input = { _id: 'u1', title: 'Updated' } as any
+    const updated = { _id: 'u1', title: 'Updated' }
     ;(service.updateBook as jest.Mock).mockResolvedValue(updated)
-    const result = await resolver.updateBook(update)
+
+    const result = await resolver.updateBook(input)
+
+    expect(service.updateBook).toHaveBeenCalledWith('u1', input)
     expect(result).toEqual(updated)
-    expect(service.updateBook).toHaveBeenCalledWith('u1', update)
   })
 
-  it('removeBook should delegate', async () => {
-    const removed = { acknowledged: true } as any
+  it('removeBook should delegate to service', async () => {
+    const removed = { _id: 'r1' }
     ;(service.removeBook as jest.Mock).mockResolvedValue(removed)
+
     const result = await resolver.removeBook('r1' as any)
-    expect(result).toEqual(removed)
+
     expect(service.removeBook).toHaveBeenCalledWith('r1')
+    expect(result).toEqual(removed)
   })
 })

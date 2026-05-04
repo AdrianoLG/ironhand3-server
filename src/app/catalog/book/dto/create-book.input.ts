@@ -1,33 +1,44 @@
-import { IsOptional } from 'class-validator'
-import { Schema as MongooSchema } from 'mongoose'
+import { Schema as MongoSchema } from 'mongoose'
 
 import { Field, InputType, Int } from '@nestjs/graphql'
 
+import { BookFormat, CoverMaterial } from '../entities/book.entity'
+
 @InputType()
 export class CreateBookInput {
-  @Field(() => String, { description: 'Title of the book' })
+  @Field(() => String, { description: 'Book title' })
   title: string
 
-  @Field(() => Int, { description: 'Number of pages', nullable: true })
-  @IsOptional()
-  pages?: number
+  @Field(() => [String], { description: 'Book authors ids' })
+  author: MongoSchema.Types.ObjectId[]
 
-  @Field(() => String, { description: 'Cover of the book', nullable: true })
-  @IsOptional()
-  cover?: string
+  @Field(() => String, { description: 'Book cover' })
+  cover: string
 
-  @Field(() => String, { description: 'ISBN of the book', nullable: true })
-  @IsOptional()
-  isbn?: string
+  @Field(() => BookFormat, { description: 'Book format' })
+  format: BookFormat
 
-  @Field(() => String, { description: 'Notes about the book', nullable: true })
-  @IsOptional()
-  notes?: string
+  @Field(() => Int, { description: 'Book pages' })
+  pages: number
 
-  @Field(() => [String], {
-    description: 'List of authors ids',
-    nullable: false,
-    defaultValue: []
+  @Field(() => CoverMaterial, {
+    description: 'Book cover material',
+    nullable: true
   })
-  authors: MongooSchema.Types.ObjectId[]
+  coverMaterial?: CoverMaterial
+
+  @Field(() => String, { description: 'Book editorial', nullable: true })
+  editorial?: string
+
+  @Field(() => Int, { description: 'Published year', nullable: true })
+  publishedYear?: number
+
+  @Field(() => String, { description: 'Synopsis', nullable: true })
+  synopsis?: string
+
+  @Field(() => [String], { description: 'Genre ids', nullable: true })
+  genres?: MongoSchema.Types.ObjectId[]
+
+  @Field(() => [String], { description: 'Book tags', nullable: true })
+  tags?: string[]
 }

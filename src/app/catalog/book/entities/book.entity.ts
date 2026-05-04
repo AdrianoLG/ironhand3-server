@@ -1,9 +1,28 @@
 import { Schema as MongoSchema } from 'mongoose'
 
-import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 
-import { Author } from '../../author/entities/author.entity'
+import { Genre } from '../../genre/entities/genre.entity'
+import { Person } from '../../person/entities/person.entity'
+
+export enum BookFormat {
+  PAPER = 'paper',
+  ELECTRONIC = 'electronic'
+}
+
+export enum CoverMaterial {
+  SOFT = 'soft',
+  HARD = 'hard'
+}
+
+registerEnumType(BookFormat, {
+  name: 'BookFormat'
+})
+
+registerEnumType(CoverMaterial, {
+  name: 'CoverMaterial'
+})
 
 @ObjectType()
 @Schema()
@@ -11,42 +30,52 @@ export class Book {
   @Field(() => String)
   _id: MongoSchema.Types.ObjectId
 
-  @Field(() => String, { description: 'Title of the book' })
-  @Prop({ required: true, unique: true })
+  @Field(() => String, { description: 'Book title' })
+  @Prop({ required: true })
   title: string
 
-  @Field(() => Int, { description: 'Number of pages', nullable: true })
-  @Prop()
-  pages?: number
+  @Field(() => [Person], { description: 'Book authors' })
+  @Prop({ type: [MongoSchema.Types.ObjectId], ref: 'Person', required: true })
+  author: Person[]
 
-  @Field(() => String, { description: 'Cover of the book', nullable: true })
-  @Prop()
-  cover?: string
+  @Field(() => String, { description: 'Book cover' })
+  @Prop({ required: true })
+  cover: string
 
-  @Field(() => String, { description: 'Notes about the book', nullable: true })
-  @Prop()
-  notes?: string
+  @Field(() => BookFormat, { description: 'Book format' })
+  @Prop({ required: true, enum: BookFormat })
+  format: BookFormat
 
-  @Field(() => [Author], {
-    description: 'Authors of the book',
-    nullable: false,
-    defaultValue: []
+  @Field(() => Int, { description: 'Book pages' })
+  @Prop({ required: true })
+  pages: number
+
+  @Field(() => CoverMaterial, {
+    description: 'Book cover material',
+    nullable: true
   })
-  @Prop({ type: [{ type: MongoSchema.Types.ObjectId, ref: 'Author' }] })
-  authors: Author[]
-}
+  @Prop({ enum: CoverMaterial })
+  coverMaterial?: CoverMaterial
 
-@ObjectType()
-export class GetBooksPaginatedResponse {
-  @Field(() => [Book], {
-    description: 'List of books',
-    nullable: false,
-    defaultValue: []
-  })
-  bookList: Book[]
+  @Field(() => String, { description: 'Book editorial', nullable: true })
+  @Prop()
+  editorial?: string
 
-  @Field(() => Int, { nullable: false, defaultValue: 0 })
-  booksCount: number
+  @Field(() => Int, { description: 'Published year', nullable: true })
+  @Prop()
+  publishedYear?: number
+
+  @Field(() => String, { description: 'Synopsis', nullable: true })
+  @Prop()
+  synopsis?: string
+
+  @Field(() => [Genre], { description: 'Book genres', nullable: true })
+  @Prop({ type: [MongoSchema.Types.ObjectId], ref: 'Genre' })
+  genres?: Genre[]
+
+  @Field(() => [String], { description: 'Book tags', nullable: true })
+  @Prop({ type: [String] })
+  tags?: string[]
 }
 
 export type BookDocument = Book & Document
