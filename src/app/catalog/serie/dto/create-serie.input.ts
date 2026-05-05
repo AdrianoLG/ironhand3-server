@@ -1,3 +1,4 @@
+import { Max, Min } from 'class-validator'
 import { Schema as MongoSchema } from 'mongoose'
 
 import { Field, InputType, Int } from '@nestjs/graphql'
@@ -24,6 +25,11 @@ export class CreateSerieInput {
     nullable: true
   })
   episodeDuration?: number
+
+  @Field(() => Int, { description: 'Serie rating', nullable: true })
+  @Min(0)
+  @Max(9)
+  rating?: number
 
   @Field(() => Int, { description: 'Release year', nullable: true })
   year?: number

@@ -9,13 +9,13 @@ export class Country {
   @Field(() => String)
   _id: MongoSchema.Types.ObjectId
 
-  @Field(() => String, { description: 'Country name' })
+  @Field(() => String, { description: 'Country name', nullable: true })
   @Prop({ required: true })
-  name: string
+  name?: string
 
-  @Field(() => String, { description: 'Country slug' })
+  @Field(() => String, { description: 'Country slug', nullable: true })
   @Prop({ required: true, unique: true })
-  slug: string
+  slug?: string
 
   @Field(() => String, { description: 'Country flag', nullable: true })
   @Prop()

@@ -23,8 +23,8 @@ export class SerieService {
     return this.serieModel
       .find()
       .sort({ title: 1 })
-      .populate('director')
-      .populate('actors')
+      .populate({ path: 'director', populate: { path: 'birthCountry' } })
+      .populate({ path: 'actors', populate: { path: 'birthCountry' } })
       .populate('country')
       .populate('genres')
       .exec()
@@ -33,8 +33,8 @@ export class SerieService {
   async getSerieById(id: MongooseSchema.Types.ObjectId) {
     return this.serieModel
       .findById(id)
-      .populate('director')
-      .populate('actors')
+      .populate({ path: 'director', populate: { path: 'birthCountry' } })
+      .populate({ path: 'actors', populate: { path: 'birthCountry' } })
       .populate('country')
       .populate('genres')
       .exec()
@@ -46,8 +46,8 @@ export class SerieService {
   ) {
     return this.serieModel
       .findByIdAndUpdate(id, updateSerieInput, { new: true })
-      .populate('director')
-      .populate('actors')
+      .populate({ path: 'director', populate: { path: 'birthCountry' } })
+      .populate({ path: 'actors', populate: { path: 'birthCountry' } })
       .populate('country')
       .populate('genres')
       .exec()

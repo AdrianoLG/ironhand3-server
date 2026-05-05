@@ -37,6 +37,10 @@ export class Movie {
   @Prop()
   duration?: number
 
+  @Field(() => Int, { description: 'Movie rating', nullable: true })
+  @Prop({ min: 0, max: 9 })
+  rating?: number
+
   @Field(() => Int, { description: 'Release year', nullable: true })
   @Prop()
   year?: number

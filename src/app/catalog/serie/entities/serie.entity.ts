@@ -40,6 +40,10 @@ export class Serie {
   @Prop()
   episodeDuration?: number
 
+  @Field(() => Int, { description: 'Serie rating', nullable: true })
+  @Prop({ min: 0, max: 9 })
+  rating?: number
+
   @Field(() => Int, { description: 'Release year', nullable: true })
   @Prop()
   year?: number

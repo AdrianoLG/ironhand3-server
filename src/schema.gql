@@ -132,10 +132,10 @@ type Country {
   _id: String!
 
   """Country name"""
-  name: String!
+  name: String
 
   """Country slug"""
-  slug: String!
+  slug: String
 
   """Country flag"""
   flag: String
@@ -183,6 +183,9 @@ type Book {
 
   """Book pages"""
   pages: Int!
+
+  """Book rating"""
+  rating: Int
 
   """Book cover material"""
   coverMaterial: CoverMaterial
@@ -234,6 +237,9 @@ type Movie {
   """Duration in minutes"""
   duration: Int
 
+  """Movie rating"""
+  rating: Int
+
   """Release year"""
   year: Int
 
@@ -264,6 +270,9 @@ type Serie {
 
   """Episode duration in minutes"""
   episodeDuration: Int
+
+  """Serie rating"""
+  rating: Int
 
   """Release year"""
   year: Int
@@ -920,6 +929,9 @@ input CreateBookInput {
   """Book pages"""
   pages: Int!
 
+  """Book rating"""
+  rating: Int
+
   """Book cover material"""
   coverMaterial: CoverMaterial
 
@@ -954,6 +966,9 @@ input UpdateBookInput {
 
   """Book pages"""
   pages: Int
+
+  """Book rating"""
+  rating: Int
 
   """Book cover material"""
   coverMaterial: CoverMaterial
@@ -1069,6 +1084,9 @@ input CreateMovieInput {
   """Duration in minutes"""
   duration: Int
 
+  """Movie rating"""
+  rating: Int
+
   """Release year"""
   year: Int
 
@@ -1097,6 +1115,9 @@ input UpdateMovieInput {
 
   """Duration in minutes"""
   duration: Int
+
+  """Movie rating"""
+  rating: Int
 
   """Release year"""
   year: Int
@@ -1128,6 +1149,9 @@ input CreateSerieInput {
   """Episode duration in minutes"""
   episodeDuration: Int
 
+  """Serie rating"""
+  rating: Int
+
   """Release year"""
   year: Int
 
@@ -1156,6 +1180,9 @@ input UpdateSerieInput {
 
   """Episode duration in minutes"""
   episodeDuration: Int
+
+  """Serie rating"""
+  rating: Int
 
   """Release year"""
   year: Int

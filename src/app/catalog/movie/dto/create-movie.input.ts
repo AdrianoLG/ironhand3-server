@@ -1,3 +1,4 @@
+import { Max, Min } from 'class-validator'
 import { Schema as MongoSchema } from 'mongoose'
 
 import { Field, InputType, Int } from '@nestjs/graphql'
@@ -21,6 +22,11 @@ export class CreateMovieInput {
 
   @Field(() => Int, { description: 'Duration in minutes', nullable: true })
   duration?: number
+
+  @Field(() => Int, { description: 'Movie rating', nullable: true })
+  @Min(0)
+  @Max(9)
+  rating?: number
 
   @Field(() => Int, { description: 'Release year', nullable: true })
   year?: number

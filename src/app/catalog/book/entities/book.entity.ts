@@ -50,6 +50,10 @@ export class Book {
   @Prop({ required: true })
   pages: number
 
+  @Field(() => Int, { description: 'Book rating', nullable: true })
+  @Prop({ min: 0, max: 9 })
+  rating?: number
+
   @Field(() => CoverMaterial, {
     description: 'Book cover material',
     nullable: true

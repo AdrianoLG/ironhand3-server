@@ -1,3 +1,4 @@
+import { Max, Min } from 'class-validator'
 import { Schema as MongoSchema } from 'mongoose'
 
 import { Field, InputType, Int } from '@nestjs/graphql'
@@ -20,6 +21,11 @@ export class CreateBookInput {
 
   @Field(() => Int, { description: 'Book pages' })
   pages: number
+
+  @Field(() => Int, { description: 'Book rating', nullable: true })
+  @Min(0)
+  @Max(9)
+  rating?: number
 
   @Field(() => CoverMaterial, {
     description: 'Book cover material',

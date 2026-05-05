@@ -23,8 +23,8 @@ export class MovieService {
     return this.movieModel
       .find()
       .sort({ title: 1 })
-      .populate('director')
-      .populate('actors')
+      .populate({ path: 'director', populate: { path: 'birthCountry' } })
+      .populate({ path: 'actors', populate: { path: 'birthCountry' } })
       .populate('country')
       .populate('genres')
       .exec()
@@ -33,8 +33,8 @@ export class MovieService {
   async getMovieById(id: MongooseSchema.Types.ObjectId) {
     return this.movieModel
       .findById(id)
-      .populate('director')
-      .populate('actors')
+      .populate({ path: 'director', populate: { path: 'birthCountry' } })
+      .populate({ path: 'actors', populate: { path: 'birthCountry' } })
       .populate('country')
       .populate('genres')
       .exec()
@@ -46,8 +46,8 @@ export class MovieService {
   ) {
     return this.movieModel
       .findByIdAndUpdate(id, updateMovieInput, { new: true })
-      .populate('director')
-      .populate('actors')
+      .populate({ path: 'director', populate: { path: 'birthCountry' } })
+      .populate({ path: 'actors', populate: { path: 'birthCountry' } })
       .populate('country')
       .populate('genres')
       .exec()
