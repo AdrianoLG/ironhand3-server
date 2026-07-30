@@ -514,6 +514,25 @@ type Header {
   url: String!
 }
 
+type Note {
+  _id: String!
+
+  """Note title"""
+  title: String!
+
+  """WYSIWYG content"""
+  content: String!
+
+  """Tags"""
+  tags: [String!]
+
+  """Category"""
+  category: String
+
+  """Image names/urls"""
+  images: [String!]
+}
+
 type Food {
   _id: String!
 
@@ -739,6 +758,9 @@ type Query {
   shortcutCategory(id: String!): ShortcutCategory!
   headers: [Header!]!
   header(id: String!): Header!
+  notes: [Note!]!
+  note(id: String!): Note!
+  noteCategories: [String!]!
   completedExercises: [CompletedExercise!]!
   completedExercise(id: String!): CompletedExercise!
   exercises: [Exercise!]!
@@ -816,6 +838,9 @@ type Mutation {
   createHeader(createHeaderInput: CreateHeaderInput!): Header!
   updateHeader(updateHeaderInput: UpdateHeaderInput!): Header!
   removeHeader(id: String!): Header!
+  createNote(createNoteInput: CreateNoteInput!): Note!
+  updateNote(updateNoteInput: UpdateNoteInput!): Note!
+  removeNote(id: String!): Note!
   createCompletedExercise(createCompletedExerciseInput: CreateCompletedExerciseInput!): CompletedExercise!
   updateCompletedExercise(updateCompletedExerciseInput: UpdateCompletedExerciseInput!): CompletedExercise!
   removeCompletedExercise(id: String!): CompletedExercise!
@@ -1261,6 +1286,32 @@ input UpdateHeaderInput {
 
   """URL of nav item"""
   url: String
+  _id: String!
+}
+
+input CreateNoteInput {
+  """Note title"""
+  title: String!
+
+  """WYSIWYG content"""
+  content: String!
+
+  """Tags"""
+  tags: [String!]
+
+  """Category"""
+  category: String
+
+  """Image names/urls"""
+  images: [String!]
+}
+
+input UpdateNoteInput {
+  title: String
+  content: String
+  tags: [String!]
+  category: String
+  images: [String!]
   _id: String!
 }
 
