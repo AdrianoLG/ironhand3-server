@@ -636,6 +636,93 @@ enum RecipeMachine {
   GRINDER
 }
 
+type User {
+  _id: String!
+
+  """Email of the user"""
+  email: String!
+
+  """Password of the user"""
+  password: String!
+
+  """Name of the user"""
+  name: String
+
+  """City of the user"""
+  city: String
+}
+
+type Project {
+  _id: String!
+
+  """Project title"""
+  title: String!
+
+  """Project description"""
+  description: String
+
+  """Whether project is shared"""
+  shared: Boolean!
+
+  """Project category"""
+  category: String!
+
+  """Tasks belonging to this project"""
+  tasks: [Task!]
+}
+
+type TaskSubtask {
+  """Subtask title"""
+  title: String!
+
+  """Whether the subtask is completed"""
+  completed: Boolean!
+}
+
+type Task {
+  _id: String!
+
+  """Task title"""
+  title: String!
+
+  """Task description"""
+  description: String
+
+  """Subtasks"""
+  subtasks: [TaskSubtask!]
+
+  """Assigned user"""
+  asignedTo: User
+
+  """Project that owns this task"""
+  project: Project!
+
+  """Task priority"""
+  priority: TaskPriority!
+
+  """Task tags"""
+  tags: [String!]
+
+  """Task status"""
+  status: TaskStatus!
+
+  """Whether the task is completed"""
+  completed: Boolean!
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TaskStatus {
+  TODO
+  DOING
+  DONE
+}
+
 type Instrument {
   _id: String!
 
@@ -721,22 +808,6 @@ type ResponseType {
   count: Int!
 }
 
-type User {
-  _id: String!
-
-  """Email of the user"""
-  email: String!
-
-  """Password of the user"""
-  password: String!
-
-  """Name of the user"""
-  name: String
-
-  """City of the user"""
-  city: String
-}
-
 type Query {
   users: [User!]!
   user(id: String!): User!
@@ -805,6 +876,10 @@ type Query {
   saving(id: String!): Saving!
   goals: [Goal!]!
   goal(id: String!): Goal!
+  projects: [Project!]!
+  project(id: String!): Project!
+  tasks: [Task!]!
+  task(id: String!): Task!
 }
 
 type Mutation {
@@ -907,6 +982,12 @@ type Mutation {
   createGoal(createGoalInput: CreateGoalInput!): Goal!
   updateGoal(updateGoalInput: UpdateGoalInput!): Goal!
   removeGoal(id: String!): Goal!
+  createProject(createProjectInput: CreateProjectInput!): Project!
+  updateProject(updateProjectInput: UpdateProjectInput!): Project!
+  removeProject(id: String!): Project!
+  createTask(createTaskInput: CreateTaskInput!): Task!
+  updateTask(updateTaskInput: UpdateTaskInput!): Task!
+  removeTask(id: String!): Task!
 }
 
 input CreateUserInput {
@@ -2054,5 +2135,107 @@ input UpdateGoalInput {
 
   """Completion date"""
   completedAt: DateTime
+  _id: String!
+}
+
+input CreateProjectInput {
+  """Project title"""
+  title: String!
+
+  """Project description"""
+  description: String
+
+  """Whether project is shared"""
+  shared: Boolean
+
+  """Project category"""
+  category: String!
+
+  """Task ids for this project"""
+  tasks: [String!]
+}
+
+input UpdateProjectInput {
+  """Project title"""
+  title: String
+
+  """Project description"""
+  description: String
+
+  """Whether project is shared"""
+  shared: Boolean
+
+  """Project category"""
+  category: String
+
+  """Task ids for this project"""
+  tasks: [String!]
+  _id: String!
+}
+
+input CreateTaskInput {
+  """Task title"""
+  title: String!
+
+  """Task description"""
+  description: String
+
+  """Subtasks"""
+  subtasks: [CreateTaskSubtaskInput!]
+
+  """Assigned user id"""
+  asignedTo: String
+
+  """Project id that owns this task"""
+  project: String!
+
+  """Task priority"""
+  priority: TaskPriority
+
+  """Task tags"""
+  tags: [String!]
+
+  """Task status"""
+  status: TaskStatus
+
+  """Whether the task is completed"""
+  completed: Boolean
+}
+
+input CreateTaskSubtaskInput {
+  """Subtask title"""
+  title: String!
+
+  """Whether the subtask is completed"""
+  completed: Boolean
+}
+
+input UpdateTaskInput {
+  """Task title"""
+  title: String
+
+  """Task description"""
+  description: String
+
+  """Subtasks"""
+  subtasks: [CreateTaskSubtaskInput!]
+
+  """Assigned user id"""
+  asignedTo: String
+
+  """Project id that owns this task"""
+  project: String
+
+  """Task priority"""
+  priority: TaskPriority
+
+  """Task tags"""
+  tags: [String!]
+
+  """Task status"""
+  status: TaskStatus
+
+  """Whether the task is completed"""
+  completed: Boolean
   _id: String!
 }

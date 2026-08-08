@@ -39,6 +39,8 @@ import { CompletedMealModule } from './nutrition/completed-meal/completed-meal.m
 import { FoodModule } from './nutrition/food/food.module';
 import { IngredientModule } from './nutrition/ingredient/ingredient.module';
 import { RecipeModule } from './nutrition/recipe/recipe.module';
+import { ProjectModule } from './projects/project/project.module';
+import { TaskModule } from './projects/task/task.module';
 import { InstrumentModule } from './rehearsal/instrument/instrument.module';
 import { RehearsalModule } from './rehearsal/rehearsal/rehearsal.module';
 import { SheetModule } from './rehearsal/sheet/sheet.module';
@@ -102,7 +104,9 @@ import { UserModule } from './user/user.module';
     TransactionModule,
     SubscriptionModule,
     SavingModule,
-    GoalModule
+    GoalModule,
+    ProjectModule,
+    TaskModule
   ],
   controllers: [],
   providers: []
