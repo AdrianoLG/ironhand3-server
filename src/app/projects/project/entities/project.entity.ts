@@ -1,15 +1,20 @@
-import { Schema as MongoSchema } from 'mongoose';
+import { Schema as MongoSchema } from 'mongoose'
 
-import { Field, ObjectType } from '@nestjs/graphql';
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Field, ObjectType } from '@nestjs/graphql'
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 
-import { Task } from '../../task/entities/task.entity';
+import { User } from '../../../user/entities/user.entity'
+import { Task } from '../../task/entities/task.entity'
 
 @ObjectType()
 @Schema()
 export class Project {
   @Field(() => String)
   _id: MongoSchema.Types.ObjectId
+
+  @Field(() => User, { description: 'Owner of the project' })
+  @Prop({ type: MongoSchema.Types.ObjectId, ref: 'User', required: true })
+  owner: MongoSchema.Types.ObjectId
 
   @Field(() => String, { description: 'Project title' })
   @Prop({ required: true })

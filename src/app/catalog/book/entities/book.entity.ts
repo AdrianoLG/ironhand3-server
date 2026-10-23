@@ -3,6 +3,7 @@ import { Schema as MongoSchema } from 'mongoose'
 import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 
+import { User } from '../../../user/entities/user.entity'
 import { Genre } from '../../genre/entities/genre.entity'
 import { Person } from '../../person/entities/person.entity'
 
@@ -29,6 +30,10 @@ registerEnumType(CoverMaterial, {
 export class Book {
   @Field(() => String)
   _id: MongoSchema.Types.ObjectId
+
+  @Field(() => User, { description: 'Owner of the book' })
+  @Prop({ type: MongoSchema.Types.ObjectId, ref: 'User', required: true })
+  owner: MongoSchema.Types.ObjectId
 
   @Field(() => String, { description: 'Book title' })
   @Prop({ required: true })

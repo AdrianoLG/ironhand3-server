@@ -13,8 +13,4 @@ export class CreateUserInput {
   @Field(() => String, { description: 'Name of the user', nullable: true })
   @IsOptional()
   name?: string
-
-  @Field(() => String, { description: 'City of the user', nullable: true })
-  @IsOptional()
-  city?: string
 }

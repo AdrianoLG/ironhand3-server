@@ -3,6 +3,7 @@ import { Schema as MongoSchema } from 'mongoose'
 import { Field, Float, ObjectType } from '@nestjs/graphql'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 
+import { User } from '../../../user/entities/user.entity'
 import { Goal } from '../../goal/entities/goal.entity'
 
 @ObjectType()
@@ -10,6 +11,10 @@ import { Goal } from '../../goal/entities/goal.entity'
 export class Saving {
   @Field(() => String)
   _id: MongoSchema.Types.ObjectId
+
+  @Field(() => User, { description: 'Owner of the saving' })
+  @Prop({ type: MongoSchema.Types.ObjectId, ref: 'User', required: true })
+  owner: MongoSchema.Types.ObjectId
 
   @Field(() => String, { description: 'Saving name' })
   @Prop({ required: true })

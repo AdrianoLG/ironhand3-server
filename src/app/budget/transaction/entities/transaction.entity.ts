@@ -9,6 +9,7 @@ import {
 } from '@nestjs/graphql'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 
+import { User } from '../../../user/entities/user.entity'
 import { Subscription } from '../../subscription/entities/subscription.entity'
 
 export enum TransactionCategory {
@@ -44,6 +45,10 @@ registerEnumType(TransactionType, {
 export class Transaction {
   @Field(() => String)
   _id: MongoSchema.Types.ObjectId
+
+  @Field(() => User, { description: 'Owner of the transaction' })
+  @Prop({ type: MongoSchema.Types.ObjectId, ref: 'User', required: true })
+  owner: MongoSchema.Types.ObjectId
 
   @Field(() => String, { description: 'Transaction title' })
   @Prop({ required: true })

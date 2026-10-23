@@ -3,6 +3,7 @@ import { Schema as MongoSchema } from 'mongoose'
 import { Field, Int, ObjectType } from '@nestjs/graphql'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 
+import { User } from '../../../user/entities/user.entity'
 import { Exercise } from '../../exercise/entities/exercise.entity'
 
 @ObjectType()
@@ -10,6 +11,10 @@ import { Exercise } from '../../exercise/entities/exercise.entity'
 export class CompletedExercise {
   @Field(() => String)
   _id: MongoSchema.Types.ObjectId
+
+  @Field(() => User, { description: 'Owner of this completed exercise' })
+  @Prop({ type: MongoSchema.Types.ObjectId, ref: 'User', required: true })
+  owner: MongoSchema.Types.ObjectId
 
   @Field(() => Date, { description: 'Date in which exercise was completed' })
   @Prop({ required: true })

@@ -1,6 +1,6 @@
-import { MaxLength } from 'class-validator';
+import { MaxLength } from 'class-validator'
 
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql'
 
 @InputType()
 export class CreateNoteInput {
@@ -10,6 +10,12 @@ export class CreateNoteInput {
 
   @Field(() => String, { description: 'WYSIWYG content' })
   content: string
+
+  @Field(() => Boolean, {
+    description: 'Whether the note is shared',
+    nullable: true
+  })
+  shared?: boolean
 
   @Field(() => [String], { description: 'Tags', nullable: true })
   tags?: string[]

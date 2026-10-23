@@ -3,6 +3,7 @@ import { Schema as MongoSchema } from 'mongoose'
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 
+import { User } from '../../../user/entities/user.entity'
 import { Food } from '../../food/entities/food.entity'
 
 export enum CompletedMealTimeOfDay {
@@ -21,6 +22,10 @@ registerEnumType(CompletedMealTimeOfDay, {
 export class CompletedMeal {
   @Field(() => String)
   _id: MongoSchema.Types.ObjectId
+
+  @Field(() => User, { description: 'Owner of this completed meal' })
+  @Prop({ type: MongoSchema.Types.ObjectId, ref: 'User', required: true })
+  owner: MongoSchema.Types.ObjectId
 
   @Field(() => Food, { description: 'Food' })
   @Prop({ type: MongoSchema.Types.ObjectId, ref: 'Food', required: true })

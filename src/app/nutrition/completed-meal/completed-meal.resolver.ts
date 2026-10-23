@@ -2,6 +2,8 @@ import { Schema as MongooseSchema } from 'mongoose'
 
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 
+import { CurrentUser } from '../../auth/decorators/current-user.decorator'
+import { User } from '../../user/entities/user.entity'
 import { CompletedMealService } from './completed-meal.service'
 import { CreateCompletedMealInput } from './dto/create-completed-meal.input'
 import { UpdateCompletedMealInput } from './dto/update-completed-meal.input'
@@ -14,40 +16,46 @@ export class CompletedMealResolver {
   @Mutation(() => CompletedMeal)
   createCompletedMeal(
     @Args('createCompletedMealInput')
-    createCompletedMealInput: CreateCompletedMealInput
+    createCompletedMealInput: CreateCompletedMealInput,
+    @CurrentUser() currentUser: User
   ) {
     return this.completedMealService.createCompletedMeal(
-      createCompletedMealInput
+      createCompletedMealInput,
+      currentUser
     )
   }
 
   @Query(() => [CompletedMeal], { name: 'completedMeals' })
-  completedMeals() {
-    return this.completedMealService.findAllCompletedMeals()
+  completedMeals(@CurrentUser() currentUser: User) {
+    return this.completedMealService.findAllCompletedMeals(currentUser)
   }
 
   @Query(() => CompletedMeal, { name: 'completedMeal' })
   completedMeal(
-    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId
+    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId,
+    @CurrentUser() currentUser: User
   ) {
-    return this.completedMealService.getCompletedMealById(id)
+    return this.completedMealService.getCompletedMealById(id, currentUser)
   }
 
   @Mutation(() => CompletedMeal)
   updateCompletedMeal(
     @Args('updateCompletedMealInput')
-    updateCompletedMealInput: UpdateCompletedMealInput
+    updateCompletedMealInput: UpdateCompletedMealInput,
+    @CurrentUser() currentUser: User
   ) {
     return this.completedMealService.updateCompletedMeal(
       updateCompletedMealInput._id,
-      updateCompletedMealInput
+      updateCompletedMealInput,
+      currentUser
     )
   }
 
   @Mutation(() => CompletedMeal)
   removeCompletedMeal(
-    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId
+    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId,
+    @CurrentUser() currentUser: User
   ) {
-    return this.completedMealService.removeCompletedMeal(id)
+    return this.completedMealService.removeCompletedMeal(id, currentUser)
   }
 }

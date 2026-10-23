@@ -1,9 +1,9 @@
-import { IsMongoId, MaxLength } from 'class-validator';
-import { Schema as MongoSchema } from 'mongoose';
+import { IsMongoId, MaxLength } from 'class-validator'
+import { Schema as MongoSchema } from 'mongoose'
 
-import { Field, InputType, PartialType } from '@nestjs/graphql';
+import { Field, InputType, PartialType } from '@nestjs/graphql'
 
-import { CreateNoteInput } from './create-note.input';
+import { CreateNoteInput } from './create-note.input'
 
 @InputType()
 export class UpdateNoteInput extends PartialType(CreateNoteInput) {
@@ -17,6 +17,9 @@ export class UpdateNoteInput extends PartialType(CreateNoteInput) {
 
   @Field(() => String, { nullable: true })
   content?: string
+
+  @Field(() => Boolean, { nullable: true })
+  shared?: boolean
 
   @Field(() => [String], { nullable: true })
   tags?: string[]

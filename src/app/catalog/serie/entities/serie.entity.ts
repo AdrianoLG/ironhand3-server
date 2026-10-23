@@ -3,6 +3,7 @@ import { Schema as MongoSchema } from 'mongoose'
 import { Field, Int, ObjectType } from '@nestjs/graphql'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 
+import { User } from '../../../user/entities/user.entity'
 import { Country } from '../../country/entities/country.entity'
 import { Genre } from '../../genre/entities/genre.entity'
 import { Person } from '../../person/entities/person.entity'
@@ -12,6 +13,10 @@ import { Person } from '../../person/entities/person.entity'
 export class Serie {
   @Field(() => String)
   _id: MongoSchema.Types.ObjectId
+
+  @Field(() => User, { description: 'Owner of the serie' })
+  @Prop({ type: MongoSchema.Types.ObjectId, ref: 'User', required: true })
+  owner: MongoSchema.Types.ObjectId
 
   @Field(() => String, { description: 'Serie title' })
   @Prop({ required: true })

@@ -2,6 +2,8 @@ import { Schema as MongooseSchema } from 'mongoose'
 
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 
+import { CurrentUser } from '../../auth/decorators/current-user.decorator'
+import { User } from '../../user/entities/user.entity'
 import { CompletedExerciseService } from './completed-exercise.service'
 import { CreateCompletedExerciseInput } from './dto/create-completed-exercise.input'
 import { UpdateCompletedExerciseInput } from './dto/update-completed-exercise.input'
@@ -16,40 +18,52 @@ export class CompletedExerciseResolver {
   @Mutation(() => CompletedExercise)
   createCompletedExercise(
     @Args('createCompletedExerciseInput')
-    createCompletedExerciseInput: CreateCompletedExerciseInput
+    createCompletedExerciseInput: CreateCompletedExerciseInput,
+    @CurrentUser() currentUser: User
   ) {
     return this.completedExerciseService.createCompletedExercise(
-      createCompletedExerciseInput
+      createCompletedExerciseInput,
+      currentUser
     )
   }
 
   @Query(() => [CompletedExercise], { name: 'completedExercises' })
-  findAll() {
-    return this.completedExerciseService.findAllCompletedExercises()
+  findAll(@CurrentUser() currentUser: User) {
+    return this.completedExerciseService.findAllCompletedExercises(currentUser)
   }
 
   @Query(() => CompletedExercise, { name: 'completedExercise' })
   findOne(
-    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId
+    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId,
+    @CurrentUser() currentUser: User
   ) {
-    return this.completedExerciseService.getCompletedExerciseById(id)
+    return this.completedExerciseService.getCompletedExerciseById(
+      id,
+      currentUser
+    )
   }
 
   @Mutation(() => CompletedExercise)
   updateCompletedExercise(
     @Args('updateCompletedExerciseInput')
-    updateCompletedExerciseInput: UpdateCompletedExerciseInput
+    updateCompletedExerciseInput: UpdateCompletedExerciseInput,
+    @CurrentUser() currentUser: User
   ) {
     return this.completedExerciseService.updateCompletedExercise(
       updateCompletedExerciseInput._id,
-      updateCompletedExerciseInput
+      updateCompletedExerciseInput,
+      currentUser
     )
   }
 
   @Mutation(() => CompletedExercise)
   removeCompletedExercise(
-    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId
+    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId,
+    @CurrentUser() currentUser: User
   ) {
-    return this.completedExerciseService.removeCompletedExercise(id)
+    return this.completedExerciseService.removeCompletedExercise(
+      id,
+      currentUser
+    )
   }
 }

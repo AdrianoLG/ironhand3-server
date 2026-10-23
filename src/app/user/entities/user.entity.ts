@@ -1,6 +1,6 @@
 import { Document, Schema as MongoSchema } from 'mongoose'
 
-import { Field, ObjectType } from '@nestjs/graphql'
+import { Field, HideField, ObjectType } from '@nestjs/graphql'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 
 @ObjectType()
@@ -13,7 +13,8 @@ export class User {
   @Prop({ required: true, unique: true })
   email: string
 
-  @Field(() => String, { description: 'Password of the user' })
+  // Nunca se expone en el schema GraphQL
+  @HideField()
   @Prop({ required: true })
   password: string
 
@@ -21,11 +22,14 @@ export class User {
   @Prop()
   name?: string
 
-  @Field(() => String, { description: 'City of the user', nullable: true })
+  // Hash del token de recuperación de contraseña, nunca expuesto en GraphQL
+  @HideField()
   @Prop()
-  city?: string
+  resetPasswordToken?: string
 
-  // TODO Add relationship to the book model
+  @HideField()
+  @Prop()
+  resetPasswordExpires?: Date
 }
 
 export type UserDocument = User & Document

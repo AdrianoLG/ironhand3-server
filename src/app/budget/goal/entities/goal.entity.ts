@@ -1,13 +1,19 @@
-import { Schema as MongoSchema } from 'mongoose';
+import { Schema as MongoSchema } from 'mongoose'
 
-import { Field, Float, ObjectType } from '@nestjs/graphql';
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Field, Float, ObjectType } from '@nestjs/graphql'
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+
+import { User } from '../../../user/entities/user.entity'
 
 @ObjectType()
 @Schema()
 export class Goal {
   @Field(() => String)
   _id: MongoSchema.Types.ObjectId
+
+  @Field(() => User, { description: 'Owner of the goal' })
+  @Prop({ type: MongoSchema.Types.ObjectId, ref: 'User', required: true })
+  owner: MongoSchema.Types.ObjectId
 
   @Field(() => String, { description: 'Goal title' })
   @Prop({ required: true })

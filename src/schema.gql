@@ -2,8 +2,21 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type User {
+  _id: String!
+
+  """Email of the user"""
+  email: String!
+
+  """Name of the user"""
+  name: String
+}
+
 type Goal {
   _id: String!
+
+  """Owner of the goal"""
+  owner: User!
 
   """Goal title"""
   title: String!
@@ -26,6 +39,9 @@ scalar DateTime
 type Saving {
   _id: String!
 
+  """Owner of the saving"""
+  owner: User!
+
   """Saving name"""
   name: String!
 
@@ -38,6 +54,9 @@ type Saving {
 
 type Subscription {
   _id: String!
+
+  """Owner of the subscription"""
+  owner: User!
 
   """Subscription frequency"""
   frequency: SubscriptionFrequency!
@@ -69,6 +88,9 @@ enum SubscriptionFrequency {
 
 type Transaction {
   _id: String!
+
+  """Owner of the transaction"""
+  owner: User!
 
   """Transaction title"""
   title: String!
@@ -169,6 +191,9 @@ enum PersonRole {
 type Book {
   _id: String!
 
+  """Owner of the book"""
+  owner: User!
+
   """Book title"""
   title: String!
 
@@ -219,6 +244,9 @@ enum CoverMaterial {
 type Movie {
   _id: String!
 
+  """Owner of the movie"""
+  owner: User!
+
   """Movie title"""
   title: String!
 
@@ -252,6 +280,9 @@ type Movie {
 
 type Serie {
   _id: String!
+
+  """Owner of the serie"""
+  owner: User!
 
   """Serie title"""
   title: String!
@@ -316,6 +347,9 @@ type CleaningTask {
 type CompletedCleaningTask {
   _id: String!
 
+  """User who completed the task"""
+  completedBy: User
+
   """Completion date"""
   completedAt: DateTime!
 
@@ -328,6 +362,9 @@ type CompletedCleaningTask {
 
 type Exercise {
   _id: String!
+
+  """Owner of the exercise"""
+  owner: User!
 
   """Exercise name"""
   name: String!
@@ -344,6 +381,9 @@ type Exercise {
 
 type CompletedExercise {
   _id: String!
+
+  """Owner of this completed exercise"""
+  owner: User!
 
   """Date in which exercise was completed"""
   date: DateTime!
@@ -517,6 +557,12 @@ type Header {
 type Note {
   _id: String!
 
+  """Owner of the note"""
+  owner: User!
+
+  """Whether the note is shared"""
+  shared: Boolean!
+
   """Note title"""
   title: String!
 
@@ -536,6 +582,9 @@ type Note {
 type Food {
   _id: String!
 
+  """Owner of the diet entry"""
+  owner: User!
+
   """Food name"""
   name: String!
 
@@ -554,6 +603,9 @@ type Food {
 
 type CompletedMeal {
   _id: String!
+
+  """Owner of this completed meal"""
+  owner: User!
 
   """Food"""
   food: Food!
@@ -636,24 +688,11 @@ enum RecipeMachine {
   GRINDER
 }
 
-type User {
-  _id: String!
-
-  """Email of the user"""
-  email: String!
-
-  """Password of the user"""
-  password: String!
-
-  """Name of the user"""
-  name: String
-
-  """City of the user"""
-  city: String
-}
-
 type Project {
   _id: String!
+
+  """Owner of the project"""
+  owner: User!
 
   """Project title"""
   title: String!
@@ -726,6 +765,9 @@ enum TaskStatus {
 type Instrument {
   _id: String!
 
+  """Owner of the instrument"""
+  owner: User!
+
   """Instrument name"""
   name: String!
 
@@ -738,6 +780,9 @@ type Instrument {
 
 type Sheet {
   _id: String!
+
+  """Owner of the sheet"""
+  owner: User!
 
   """Sheet title"""
   title: String!
@@ -759,6 +804,9 @@ type RehearsalSheet {
 
 type Rehearsal {
   _id: String!
+
+  """Owner of the rehearsal"""
+  owner: User!
 
   """Instrument"""
   instrument: Instrument!
@@ -809,20 +857,21 @@ type ResponseType {
 }
 
 type Query {
+  me: User!
   users: [User!]!
   user(id: String!): User!
-  books: [Book!]!
-  book(id: String!): Book!
+  books(viewUserId: String): [Book!]!
+  book(id: String!, viewUserId: String): Book!
   countries: [Country!]!
   country(id: String!): Country!
   genres: [Genre!]!
   genre(id: String!): Genre!
   people: [Person!]!
   person(id: String!): Person!
-  movies: [Movie!]!
-  movie(id: String!): Movie!
-  series: [Serie!]!
-  serie(id: String!): Serie!
+  movies(viewUserId: String): [Movie!]!
+  movie(id: String!, viewUserId: String): Movie!
+  series(viewUserId: String): [Serie!]!
+  serie(id: String!, viewUserId: String): Serie!
   shortcuts: [Shortcut!]!
   shortcut(id: String!): Shortcut!
   shortcutCategories: [ShortcutCategory!]!
@@ -883,6 +932,10 @@ type Query {
 }
 
 type Mutation {
+  login(loginInput: LoginInput!): User!
+  logout: Boolean!
+  forgotPassword(forgotPasswordInput: ForgotPasswordInput!): Boolean!
+  resetPassword(resetPasswordInput: ResetPasswordInput!): Boolean!
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: String!): User!
@@ -990,6 +1043,20 @@ type Mutation {
   removeTask(id: String!): Task!
 }
 
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input ForgotPasswordInput {
+  email: String!
+}
+
+input ResetPasswordInput {
+  token: String!
+  newPassword: String!
+}
+
 input CreateUserInput {
   """Email of the user"""
   email: String!
@@ -999,9 +1066,6 @@ input CreateUserInput {
 
   """Name of the user"""
   name: String
-
-  """City of the user"""
-  city: String
 }
 
 input UpdateUserInput {
@@ -1013,9 +1077,6 @@ input UpdateUserInput {
 
   """Name of the user"""
   name: String
-
-  """City of the user"""
-  city: String
   _id: String!
 }
 
@@ -1377,6 +1438,9 @@ input CreateNoteInput {
   """WYSIWYG content"""
   content: String!
 
+  """Whether the note is shared"""
+  shared: Boolean
+
   """Tags"""
   tags: [String!]
 
@@ -1390,6 +1454,7 @@ input CreateNoteInput {
 input UpdateNoteInput {
   title: String
   content: String
+  shared: Boolean
   tags: [String!]
   category: String
   images: [String!]

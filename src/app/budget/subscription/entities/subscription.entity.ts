@@ -1,7 +1,15 @@
-import { Schema as MongoSchema } from 'mongoose';
+import { Schema as MongoSchema } from 'mongoose'
 
-import { Field, Float, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import {
+  Field,
+  Float,
+  Int,
+  ObjectType,
+  registerEnumType
+} from '@nestjs/graphql'
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+
+import { User } from '../../../user/entities/user.entity'
 
 export enum SubscriptionFrequency {
   ANNUALLY = 'annually',
@@ -18,6 +26,10 @@ registerEnumType(SubscriptionFrequency, {
 export class Subscription {
   @Field(() => String)
   _id: MongoSchema.Types.ObjectId
+
+  @Field(() => User, { description: 'Owner of the subscription' })
+  @Prop({ type: MongoSchema.Types.ObjectId, ref: 'User', required: true })
+  owner: MongoSchema.Types.ObjectId
 
   @Field(() => SubscriptionFrequency, {
     description: 'Subscription frequency'

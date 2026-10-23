@@ -3,6 +3,7 @@ import { Schema as MongoSchema } from 'mongoose'
 import { Field, Int, ObjectType } from '@nestjs/graphql'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 
+import { User } from '../../../user/entities/user.entity'
 import { Instrument } from '../../instrument/entities/instrument.entity'
 import { Sheet } from '../../sheet/entities/sheet.entity'
 
@@ -20,6 +21,10 @@ export class RehearsalSheet {
 export class Rehearsal {
   @Field(() => String)
   _id: MongoSchema.Types.ObjectId
+
+  @Field(() => User, { description: 'Owner of the rehearsal' })
+  @Prop({ type: MongoSchema.Types.ObjectId, ref: 'User', required: true })
+  owner: MongoSchema.Types.ObjectId
 
   @Field(() => Instrument, { description: 'Instrument' })
   @Prop({ type: MongoSchema.Types.ObjectId, ref: 'Instrument', required: true })

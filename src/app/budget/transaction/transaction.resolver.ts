@@ -2,6 +2,8 @@ import { Schema as MongooseSchema } from 'mongoose'
 
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 
+import { CurrentUser } from '../../auth/decorators/current-user.decorator'
+import { User } from '../../user/entities/user.entity'
 import { CreateTransactionInput } from './dto/create-transaction.input'
 import { UpdateTransactionInput } from './dto/update-transaction.input'
 import { Transaction } from './entities/transaction.entity'
@@ -14,38 +16,46 @@ export class TransactionResolver {
   @Mutation(() => Transaction)
   createTransaction(
     @Args('createTransactionInput')
-    createTransactionInput: CreateTransactionInput
+    createTransactionInput: CreateTransactionInput,
+    @CurrentUser() currentUser: User
   ) {
-    return this.transactionService.createTransaction(createTransactionInput)
+    return this.transactionService.createTransaction(
+      createTransactionInput,
+      currentUser
+    )
   }
 
   @Query(() => [Transaction], { name: 'transactions' })
-  findAll() {
-    return this.transactionService.findAllTransactions()
+  findAll(@CurrentUser() currentUser: User) {
+    return this.transactionService.findAllTransactions(currentUser)
   }
 
   @Query(() => Transaction, { name: 'transaction' })
   findOne(
-    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId
+    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId,
+    @CurrentUser() currentUser: User
   ) {
-    return this.transactionService.getTransactionById(id)
+    return this.transactionService.getTransactionById(id, currentUser)
   }
 
   @Mutation(() => Transaction)
   updateTransaction(
     @Args('updateTransactionInput')
-    updateTransactionInput: UpdateTransactionInput
+    updateTransactionInput: UpdateTransactionInput,
+    @CurrentUser() currentUser: User
   ) {
     return this.transactionService.updateTransaction(
       updateTransactionInput._id,
-      updateTransactionInput
+      updateTransactionInput,
+      currentUser
     )
   }
 
   @Mutation(() => Transaction)
   removeTransaction(
-    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId
+    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId,
+    @CurrentUser() currentUser: User
   ) {
-    return this.transactionService.removeTransaction(id)
+    return this.transactionService.removeTransaction(id, currentUser)
   }
 }

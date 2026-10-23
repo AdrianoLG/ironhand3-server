@@ -2,6 +2,8 @@ import { Schema as MongooseSchema } from 'mongoose'
 
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 
+import { CurrentUser } from '../../auth/decorators/current-user.decorator'
+import { User } from '../../user/entities/user.entity'
 import { CompletedCleaningTasksService } from './completed-cleaning-tasks.service'
 import { CreateCompletedCleaningTaskInput } from './dto/create-completed-cleaning-task.input'
 import { UpdateCompletedCleaningTaskInput } from './dto/update-completed-cleaning-task.input'
@@ -16,10 +18,12 @@ export class CompletedCleaningTasksResolver {
   @Mutation(() => CompletedCleaningTask)
   createCompletedCleaningTask(
     @Args('createCompletedCleaningTaskInput')
-    createCompletedCleaningTaskInput: CreateCompletedCleaningTaskInput
+    createCompletedCleaningTaskInput: CreateCompletedCleaningTaskInput,
+    @CurrentUser() currentUser: User
   ) {
     return this.completedCleaningTasksService.createCompletedCleaningTask(
-      createCompletedCleaningTaskInput
+      createCompletedCleaningTaskInput,
+      currentUser
     )
   }
 

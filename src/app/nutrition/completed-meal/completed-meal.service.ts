@@ -3,6 +3,8 @@ import { Model, Schema as MongooseSchema } from 'mongoose'
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 
+import { assertOwner } from '../../common/utils/assert-owner.util'
+import { User } from '../../user/entities/user.entity'
 import { CreateCompletedMealInput } from './dto/create-completed-meal.input'
 import { UpdateCompletedMealInput } from './dto/update-completed-meal.input'
 import {
@@ -18,30 +20,42 @@ export class CompletedMealService {
   ) {}
 
   async createCompletedMeal(
-    createCompletedMealInput: CreateCompletedMealInput
+    createCompletedMealInput: CreateCompletedMealInput,
+    owner: User
   ) {
-    const createdCompletedMeal = new this.completedMealModel(
-      createCompletedMealInput
-    )
+    const createdCompletedMeal = new this.completedMealModel({
+      ...createCompletedMealInput,
+      owner: owner._id
+    })
     return createdCompletedMeal.save()
   }
 
-  async findAllCompletedMeals() {
+  async findAllCompletedMeals(currentUser: User) {
     return this.completedMealModel
-      .find()
+      .find({ owner: currentUser._id })
       .sort({ created: -1 })
       .populate('food')
       .exec()
   }
 
-  async getCompletedMealById(id: MongooseSchema.Types.ObjectId) {
-    return this.completedMealModel.findById(id).populate('food').exec()
+  async getCompletedMealById(
+    id: MongooseSchema.Types.ObjectId,
+    currentUser: User
+  ) {
+    const completedMeal = await this.completedMealModel.findById(id).exec()
+    if (!completedMeal) return null
+    assertOwner(completedMeal.owner, currentUser)
+    return completedMeal.populate('food')
   }
 
   async updateCompletedMeal(
     id: MongooseSchema.Types.ObjectId,
-    updateCompletedMealInput: UpdateCompletedMealInput
+    updateCompletedMealInput: UpdateCompletedMealInput,
+    currentUser: User
   ) {
+    const completedMeal = await this.completedMealModel.findById(id).exec()
+    if (!completedMeal) return null
+    assertOwner(completedMeal.owner, currentUser)
     return this.completedMealModel
       .findByIdAndUpdate(id, updateCompletedMealInput, {
         new: true
@@ -50,7 +64,13 @@ export class CompletedMealService {
       .exec()
   }
 
-  async removeCompletedMeal(id: MongooseSchema.Types.ObjectId) {
+  async removeCompletedMeal(
+    id: MongooseSchema.Types.ObjectId,
+    currentUser: User
+  ) {
+    const completedMeal = await this.completedMealModel.findById(id).exec()
+    if (!completedMeal) return null
+    assertOwner(completedMeal.owner, currentUser)
     return this.completedMealModel.findByIdAndDelete(id).exec()
   }
 }

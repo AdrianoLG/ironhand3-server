@@ -3,6 +3,8 @@ import { Model, Schema as MongooseSchema } from 'mongoose'
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 
+import { assertOwner } from '../../common/utils/assert-owner.util'
+import { User } from '../../user/entities/user.entity'
 import {
   Rehearsal,
   RehearsalDocument
@@ -20,14 +22,18 @@ export class SheetService {
     private rehearsalModel: Model<RehearsalDocument>
   ) {}
 
-  async createSheet(createSheetInput: CreateSheetInput) {
-    const createdSheet = new this.sheetModel(createSheetInput)
+  async createSheet(createSheetInput: CreateSheetInput, owner: User) {
+    const createdSheet = new this.sheetModel({
+      ...createSheetInput,
+      owner: owner._id
+    })
     return createdSheet.save()
   }
 
-  async findAllSheets() {
+  async findAllSheets(currentUser: User) {
     const playsCounts = await this.rehearsalModel
       .aggregate([
+        { $match: { owner: currentUser._id } },
         { $unwind: '$sheets' },
         { $group: { _id: '$sheets.sheet', plays: { $sum: 1 } } },
         { $sort: { plays: -1 } }
@@ -42,7 +48,7 @@ export class SheetService {
     }
 
     const sheets = await this.sheetModel
-      .find()
+      .find({ owner: currentUser._id })
       .populate('possibleInstruments')
       .exec()
 
@@ -56,14 +62,21 @@ export class SheetService {
     return sheets
   }
 
-  async getSheetById(id: MongooseSchema.Types.ObjectId) {
-    return this.sheetModel.findById(id).populate('possibleInstruments').exec()
+  async getSheetById(id: MongooseSchema.Types.ObjectId, currentUser: User) {
+    const sheet = await this.sheetModel.findById(id).exec()
+    if (!sheet) return null
+    assertOwner(sheet.owner, currentUser)
+    return sheet.populate('possibleInstruments')
   }
 
   async updateSheet(
     id: MongooseSchema.Types.ObjectId,
-    updateSheetInput: UpdateSheetInput
+    updateSheetInput: UpdateSheetInput,
+    currentUser: User
   ) {
+    const sheet = await this.sheetModel.findById(id).exec()
+    if (!sheet) return null
+    assertOwner(sheet.owner, currentUser)
     return this.sheetModel
       .findByIdAndUpdate(id, updateSheetInput, {
         new: true
@@ -71,7 +84,10 @@ export class SheetService {
       .exec()
   }
 
-  async removeSheet(id: MongooseSchema.Types.ObjectId) {
+  async removeSheet(id: MongooseSchema.Types.ObjectId, currentUser: User) {
+    const sheet = await this.sheetModel.findById(id).exec()
+    if (!sheet) return null
+    assertOwner(sheet.owner, currentUser)
     return this.sheetModel.findByIdAndDelete(id).exec()
   }
 }

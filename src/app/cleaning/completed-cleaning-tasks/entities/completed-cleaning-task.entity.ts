@@ -1,16 +1,25 @@
-import { Schema as MongoSchema } from 'mongoose'
+import { Schema as MongoSchema } from 'mongoose';
 
-import { Field, ObjectType } from '@nestjs/graphql'
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import { Field, ObjectType } from '@nestjs/graphql';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-import { CleaningTask } from '../../cleaning-tasks/entities/cleaning-task.entity'
-import { Room } from '../../rooms/entities/room.entity'
+import { User } from '../../../user/entities/user.entity';
+import { CleaningTask } from '../../cleaning-tasks/entities/cleaning-task.entity';
+import { Room } from '../../rooms/entities/room.entity';
 
 @ObjectType()
 @Schema()
 export class CompletedCleaningTask {
   @Field(() => String)
   _id: MongoSchema.Types.ObjectId
+
+  // Opcional: los registros anteriores a la autenticación no tienen autor
+  @Field(() => User, {
+    description: 'User who completed the task',
+    nullable: true
+  })
+  @Prop({ type: MongoSchema.Types.ObjectId, ref: 'User' })
+  completedBy?: User | MongoSchema.Types.ObjectId
 
   @Field(() => Date, { description: 'Completion date' })
   @Prop({ required: true })

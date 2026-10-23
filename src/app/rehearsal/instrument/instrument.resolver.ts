@@ -2,6 +2,8 @@ import { Schema as MongooseSchema } from 'mongoose'
 
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 
+import { CurrentUser } from '../../auth/decorators/current-user.decorator'
+import { User } from '../../user/entities/user.entity'
 import { CreateInstrumentInput } from './dto/create-instrument.input'
 import { UpdateInstrumentInput } from './dto/update-instrument.input'
 import { Instrument } from './entities/instrument.entity'
@@ -13,37 +15,45 @@ export class InstrumentResolver {
 
   @Mutation(() => Instrument)
   createInstrument(
-    @Args('createInstrumentInput') createInstrumentInput: CreateInstrumentInput
+    @Args('createInstrumentInput') createInstrumentInput: CreateInstrumentInput,
+    @CurrentUser() currentUser: User
   ) {
-    return this.instrumentService.createInstrument(createInstrumentInput)
+    return this.instrumentService.createInstrument(
+      createInstrumentInput,
+      currentUser
+    )
   }
 
   @Query(() => [Instrument], { name: 'instruments' })
-  findAll() {
-    return this.instrumentService.findAllInstruments()
+  findAll(@CurrentUser() currentUser: User) {
+    return this.instrumentService.findAllInstruments(currentUser)
   }
 
   @Query(() => Instrument, { name: 'instrument' })
   findOne(
-    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId
+    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId,
+    @CurrentUser() currentUser: User
   ) {
-    return this.instrumentService.getInstrumentById(id)
+    return this.instrumentService.getInstrumentById(id, currentUser)
   }
 
   @Mutation(() => Instrument)
   updateInstrument(
-    @Args('updateInstrumentInput') updateInstrumentInput: UpdateInstrumentInput
+    @Args('updateInstrumentInput') updateInstrumentInput: UpdateInstrumentInput,
+    @CurrentUser() currentUser: User
   ) {
     return this.instrumentService.updateInstrument(
       updateInstrumentInput._id,
-      updateInstrumentInput
+      updateInstrumentInput,
+      currentUser
     )
   }
 
   @Mutation(() => Instrument)
   removeInstrument(
-    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId
+    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId,
+    @CurrentUser() currentUser: User
   ) {
-    return this.instrumentService.removeInstrument(id)
+    return this.instrumentService.removeInstrument(id, currentUser)
   }
 }

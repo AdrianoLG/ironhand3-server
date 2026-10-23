@@ -3,6 +3,7 @@ import { Model, Schema as MongooseSchema } from 'mongoose'
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 
+import { User } from '../../user/entities/user.entity'
 import { CreateCompletedCleaningTaskInput } from './dto/create-completed-cleaning-task.input'
 import { UpdateCompletedCleaningTaskInput } from './dto/update-completed-cleaning-task.input'
 import { CompletedCleaningTask } from './entities/completed-cleaning-task.entity'
@@ -15,12 +16,19 @@ export class CompletedCleaningTasksService {
   ) {}
 
   async createCompletedCleaningTask(
-    createCompletedCleaningTaskInput: CreateCompletedCleaningTaskInput
+    createCompletedCleaningTaskInput: CreateCompletedCleaningTaskInput,
+    completedBy: User
   ) {
-    const createdCompletedCleaningTask = new this.completedCleaningTaskModel(
-      createCompletedCleaningTaskInput
-    )
-    return createdCompletedCleaningTask.save()
+    const createdCompletedCleaningTask = new this.completedCleaningTaskModel({
+      ...createCompletedCleaningTaskInput,
+      completedBy: completedBy._id
+    })
+    await createdCompletedCleaningTask.save()
+    return createdCompletedCleaningTask.populate([
+      'rooms',
+      'cleaningTask',
+      'completedBy'
+    ])
   }
 
   async findAllCompletedCleaningTasks() {
@@ -29,6 +37,7 @@ export class CompletedCleaningTasksService {
       .sort({ date: -1 })
       .populate('rooms')
       .populate('cleaningTask')
+      .populate('completedBy')
       .exec()
   }
 
@@ -37,6 +46,7 @@ export class CompletedCleaningTasksService {
       .findById(id)
       .populate('rooms')
       .populate('cleaningTask')
+      .populate('completedBy')
       .exec()
   }
 
@@ -48,6 +58,9 @@ export class CompletedCleaningTasksService {
       .findByIdAndUpdate(id, updateCompletedCleaningTaskInput, {
         new: true
       })
+      .populate('rooms')
+      .populate('cleaningTask')
+      .populate('completedBy')
       .exec()
     if (!updatedTask) {
       throw new Error(`Completed Cleaning Task with id ${id} not found`)
